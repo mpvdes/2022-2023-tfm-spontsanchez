@@ -1,0 +1,163 @@
+---
+author: "Sergi Pont"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+# Creación de una tabla para representar la diferencia de accidentes entre el año 2022 y el año 2019
+
+En primer lugar, cargamos los paquetes que vamos a necesitar para filtrar los datos y crear la tabla: "dplyr" y "kableExtra". Previamente, y en caso de que sea necesario, instalamos los paquetes en nuestro equipo).
+```{r}
+if(!require(dplyr)) {install.packages("dplyr"); require(dplyr)}
+if(!require(kableExtra)) {install.packages("kableExtra"); require(kableExtra)}
+if(!require(knitr)) {install.packages("knitr"); require(knitr)}
+
+library(dplyr)
+library(kableExtra)
+library(knitr)
+```
+
+Con el comando setwd, indicamos el directorio del equipo en el que vamos a trabajar.
+```{r}
+setwd('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm')
+```
+
+Leemos los dos dataframes que necesitamos. Ambos son archivos en formato '.csv'.
+En el caso del segundo dataframe, el que hemos nombrado 'calles_30', indicamos que la separación de columnas del CSV original se marca con ';'. Si no lo hiciéramos, se leerían todas las columnas en una sola columna.
+```{r}
+accidentes <- read.csv('datasets_accidentes/datos_accidentes.csv')
+calles_30 <- read.csv('shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
+```
+
+Si queremos ver en una nueva ventanta los dataframes que hemos cargado, podemos usar la función view().
+Las líneas están comentadas para que no se carguen si no lo solicitamos.
+```{r}
+#view(calles_30)
+#view(accidentes)
+```
+
+El dataframe 'accidentes' contiene todos los accidentes entre 2015 y 2022 en la ciudad de Barcelona con una serie de parámetros. En este caso, nos interesa obtener solo los que se han producido en calles que, entre 2019 y 2022, han pasado de tener una velocidad mázima de 50 km/h a tener una velocidad máxima de 30 km/h.
+La lista de estas calles figura en el dataframe 'calles_30'.
+
+Para poder filtrar las calles en 'accidentes', en primer lugar obtenemos los códigos de calle de las calles en las que se ha reducido la velocidad y los guardamos en un vector 'codigos_calles_30'.
+```{r}
+codigos_calles_30 <- c(calles_30$codi_carrer)
+```
+
+Con la función filter(), indicamos que queremos filtrar el dataframe por la columna 'codi_carrer', usando los códigos contenidos en el vector 'codigos_calles_30'. El resultado lo guardamos en un dataframe llamado 'accidentes_calles_30'.
+```{r}
+accidentes_calles_30 <- accidentes %>%
+  filter(codi_carrer %in% codigos_calles_30)
+```
+
+Creamos un dataframe con todos los accidentes contenidos en 'accidentes_calles_30' y que se produjeron durante el año 2019. Para ello, filtramos con la función filter() en indicamos que la columna 'any' debe tener un valor igual a '2019'. Los accidentes que nos quedan, los agrupamos por la variable 'codi_carrer' y calculamos el sumatorio de accidentes por cada 'codi_carrer' con la función summarize(). Indicamos que nos guarde los sumatorios en una nueva columna llamada 'accidentes_2019'.
+```{r}
+accidentes_30_19 <- accidentes_calles_30 %>%
+  filter(any==2019) %>%
+  group_by(codi_carrer)%>%
+  summarize(accidentes_2019=n())
+```
+
+
+Repetimos la operación con los accidentes que ocurrieron en las 'calles 30' durante el año 2022.
+```{r}
+accidentes_30_22 <- accidentes_calles_30 %>%
+  filter(any==2022) %>%
+  group_by(codi_carrer)%>%
+  summarize(accidentes_2022=n())
+```
+
+Unimos los dos dataframes con la función merge(). El primer argumento indica el dataframe que se mantendrá como principal, el segundo argumento indica el dataframe que se anexará a la derecha. El argumento 'by=' indica la columna que queremos usar para unir los dos dataframes, que en este caso será 'codi_carrer'. Los dataframes se unirán teniendo en cuenta la coincidencia en la columna 'codi_carrer'.
+```{r}
+dif_accidentes <- merge(accidentes_30_19, accidentes_30_22, by='codi_carrer')
+```
+
+Creamos una nueva columna llamada 'variacion', que representará la variación porcentual de accidentes entre los años 2019 y 2022. La función mutate() sirve para añadir la nueva columna al dataframe 'dif_accidentes'.
+```{r}
+dif_accidentes <- dif_accidentes %>%
+mutate(variacion = ((accidentes_2022 - accidentes_2019)/accidentes_2019)*100)
+```
+
+Ya tenemos un dataframe con los códigos de las calles que queremos analizar, los accidentes que tuvieron lugar en 2019, en 2022 y la variación porcentual entre ambos años.
+
+La podemos ver con la función view().
+```{r}
+#view(dif_accidentes)
+```
+
+A continuación vamos a modificar el aspecto del dataframe para representarlo de forma clara para el lector:
+
+1. Con la función left_join(), unimos los dataframes 'dif_accidentes' y 'calles_30' para tener los nombres de las calles en el dataframe:
+```{r}
+dif_accidentes <- left_join(dif_accidentes, calles_30, by='codi_carrer')
+```
+
+2. Cambiamos de orden las columnas, con un vector que indique el nuevo orden deseado. La primera variable se deja vacía porque se refiere a las filas, que queremos mantener iguales por ahora. En la segunda variable, introducimos el vector con el nuevo orden de las columnas.
+```{r}
+dif_accidentes <- dif_accidentes[, c("Carrer", "accidentes_2019", "accidentes_2022", "variacion")]
+```
+
+3. Hay tres nombre de calles con faltas de ortografía. Los corregimos con la función str_replace():
+Primer argumento: columna donde hay que efectuar el cambio: dif_accidentes$Carrer
+Segundo argumento: Texto de los string que queremos cambiar
+Tercer argumento: Nuevo texto de los string
+```{r}
+dif_accidentes$Carrer <- str_replace(dif_accidentes$Carrer, "Diputaci\xf3", "Diputació")
+dif_accidentes$Carrer <- str_replace(dif_accidentes$Carrer, "Travessera de Gr\xe0cia", "Travessera de Gràcia")
+dif_accidentes$Carrer <- str_replace(dif_accidentes$Carrer, "Av. Mare de D\xe9u de Montserrat", "Av. Mare de Déu de Montserrat")
+dif_accidentes$Carrer <- str_replace(dif_accidentes$Carrer, "Carrer dels Almogavers", "Carrer dels Almogàvers")
+```
+
+4. Cambiamos el orden de las filas en función de la columna 'variacion'. Si no indicamos nada, se ordenarán de forma ascendente, que es lo que queremos en este caso.
+```{r}
+dif_accidentes <- dif_accidentes[order(dif_accidentes$variacion), ]
+dif_accidentes <- dif_accidentes %>% mutate(variacion = round(variacion, 1))
+rownames(dif_accidentes) <- NULL
+```
+
+5. Redeondeamos los valores de la columna variacion a un solo decimal. De nuevo, usamos la función mutate(), que permite hacer cambios en una columna. La función round() tiene dos argumentos, el primer indica la columna cuyos valores vamos a redondear y, en segundo lugar, se indica el número de decimales que queremos matener, en este caso, 1.
+```{r}
+dif_accidentes <- dif_accidentes %>% mutate(variacion = round(variacion, 1))
+```
+
+6. Eliminamos los índices de fila.
+```{r}
+rownames(dif_accidentes) <- NULL
+```
+
+7. Modificamos los nombres de las columnas para que sean más fáciles de comprender para el lector. Lo hacemos mediante un vector de strings. La longitud del vector tiene que coincidir con el número de columnas que tenemos y tenemos que indicar los nuevos nombres en el mismo orden de las columnas que van a sustituir.
+```{r}
+names(dif_accidentes) <- c("Calle", "Accidentes 2019", "Accidentes 2022", "Variación porcentual")
+```
+
+En último lugar, vamos cambiar el aspecto de la tabla mediante el paquete 'kableExtra', que permite dar forma y formato a las tablas.
+
+- La función kable(), nos permite indicar el formato que queremos para nuestra tabla, que en este caso será html.
+
+- La función kable_material() por si sola crea una tabla con un estilo determinado.
+Con el argumento full_width, indicamos si queremos que la tabla ocupe la anchura máxima permitida. En este caso, indicamos que no (FALSE).
+El argumento boostrap_options permite proporcionar un estilo de boostrap a la tabla.
+
+- La función column_spec() permite modificar el aspecto de una columna, de manera que el color de fondo sea diferente en función de un valor. En este caso, le indicamos que queremos modificar el aspecto de la columna que está en cuarta posición ('Variación porcentual'), indicamos el color de los números ('white') y especificamos el color de fondo con la función ifelse(): si el valor de la columna es inferior a 0, el fondo será verde, si es superior a 0, el fondo será rojo. Hemos invertido la relación lógica, porque en este caso, una variación negativa indica un cambio positivo(a mejor), mientras que una variación positiva indica un aumento de los accidentes y, por lo tanto, un dato negativo (a peor).
+
+```{r}
+tabla_variacion_accidentes <- dif_accidentes %>%
+  kable(format = "html") %>%
+  kable_material(full_width = FALSE, bootstrap_options = "striped") %>%
+  column_spec(4, color = "white", background = ifelse(dif_accidentes$'Variación porcentual' < 0, "green", "red"))
+```
+
+A continuación podemos visualizar la tabla:
+```{r}
+# tabla_variacion_accidentes
+```
+
+Si lo requerimos, exportamos la tabla en formato HTML con la función writeLines() del paquete knitr:
+```{r}
+# writeLines(tabla_variacion_accidentes, con = 'web/img/tabla_variacion_accidentes.html')
+```
+
+

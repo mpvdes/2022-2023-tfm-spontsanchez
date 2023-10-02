@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+    <head>
+	      <meta charset="utf-8" />
+	      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	      <title>Barcelona reduce en un 20% los accidentes de tráfico</title>
+	      <meta name="description" content="Evolución de los accidentes de tráfico en Barcelona"/>
+	      <meta name="viewport" content="width=device-width, initial-scale=1" />
+	      <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="custom.css"/>
+        <script src="https://unpkg.com/d3@5.9.1/dist/d3.min.js" defer></script>
+	      <script src="../scrollama.min.js" defer></script>
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+	      <main>
+            <div class="barra_sup">
+                <div style="width: 50%; float: left;">
+                    <!-- Contenido del div izquierdo -->
+                    <p class="texto_barra_sup" style="text-align:left; margin:10px;">MPVD - Trabajo de fin de máster</p>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <!-- Contenido del div derecho -->
+                    <p class="texto_barra_sup" style="text-align:right; margin:10px;">Sergi Pont Sànchez</p>
+                </div>
+                <div style="clear: both;"></div> <!-- Limpiar el float -->
+            </div>
+		        <section id="intro">
+			          <h1 class="intro__hed"><b>Barcelona reduce un 20% los accidentes de tráfico y más de un 55% los causados por exceso de velocidad</b></h1>
+                <h2 class="subtitulo"><em>En ocho años, los siniestros han bajado en 13 de las 15 vías principales con velocidad máxima a 30 km/h</em></h2>
+                <hr style="color:#B5B2B2B2; max-width:800px;">
+                <div class="bloque_texto">
+                    <p class="intro__dek">Sergi Pont Sànchez</p>
+                </div>
+                <hr style="color:#B5B2B2B2; max-width:800px;">
+                <br>
+                <div class="bloque_texto">
+			              <p class="intro__dek">
+				                El pasado 17 de junio el socialista <b>Jaume Collboni</b> fue nombrado alcalde de Barcelona y puso fin a una etapa de ocho años de gobiernos liderados por <b>Ada Colau</b>. Dos mandatos en los que la alcaldesa de Barcelona en Comú ha abanderado y ha intentado implementar -con más o menos éxito- varios proyectos para la ciudad, como la ampliación de los servicios sociales y sanitarios, la lucha contra el aumento de los precios de la vivienda o el control del turismo de masas.<br><br>Pero si un aspecto ha marcado la “era Colau” ha sido sin duda la <b>reconfiguración de la movilidad urbana</b>, con el afán de fomentar el uso del transporte público y los desplazamientos a pie y en bicicleta y reducir el uso de los vehículos motorizados. El objetivo: por un lado, mitigar la contaminación atmosférica y, por otro, <b>reducir la siniestralidad y la gravedad de los accidentes de tráfico</b>.<br><br>
+                        <figure>
+                        <img src="https://img.beteve.cat/wp-content/uploads/2019/11/accident-urgell-100718.jpg", width=100%>
+                        <figcaption class="pie_foto">Accidente en el Eixample, una de las zonas que concentra más siniestros en la ciudad de Barcelona.</figcaption>
+                        </figure>
+                    <br>
+                    <p class="intro__dek">Según datos ofrecido por el gobierno municipal, la intensidad media de vehículos en las principales arterias viarias de la ciudad <a href="https://www.naciodigital.cat/noticia/255712/aixi-canvia-mobilitat-colau-menys-cotxes-ciutat-mes-transit-ronda-dalt">se ha reducido un 11% entre 2015 y 2022</a>. Pero, ¿la accidentalidad ha seguido la tendencia a la baja? Lo analizamos a continuación.
+			          </p>
+                <br>
+                <p class="intro__dek" style="font-size:20px"><em>*Nota: En algunos análisis, hemos comparado los años 2019 y 2022, descartando los datos de los años 2020 y 2021, significativamente alterados por las medidas restrictivas de la circulación derivadas del Covid-19.</em></p>
+                </div>
+		        </section>
+
+		        <section id="scrolly">
+			          <article>
+				            <div class="step" data-step="1" data-image="img/diagrama_accidentes.svg">
+					              <p>Entre 2015 y 2022 el número de accidentes de tráfico ha disminuido un 20,2%, aunque la reducción se concentra en los últimos tres años: entre 2019 y 2022, cuando los accidentes han caído un 20,3%. Si bien es cierto que 2020 y, en menor medida, 2021 son años distorsionados por las restricciones de movilidad por el Covid-19, la reducción de la siniestralidad se mantiene en 2022, año que se ha comparado con 2019. Los datos reflejan que todos los meses entre 2015 y 2019 (excepto agosto), el número de accidentes se ha mantenido por encima de los 750, mientras que en 2022, solo se ha superado dicha cifra en los meses de mayo y noviembre.</p>
+				            </div>
+				            <div class="step" data-step="2" data-image="img/diagrama_graves_muertos_2.svg">
+					              <p>En cuanto a la gravedad de los accidentes, también se observa una clara tendencia a la baja. El año 2022, la suma entre heridos graves y muertos en accidente de tráfico no alcanzó los 200, una cifra que se superó con holgura todos los años entre 2015 y 2019. Si hablamos de muertes, en cambio, las cifras no muestran un patrón claro y no mantienen correlación con la gravedad de los accidentes. De hecho, 2022 fue, con 24, el año más muertos en la carretera desde 2016, a pesar de haberse registrado significativamente menos accidentes y menos graves que en 2017, 2018 y 2019.</p>
+				            </div>
+				            <div class="step" data-step="3" data-image="img/diagrama_exceso_velocidad.svg">
+					              <p>Al analizar los accidentes causados por exceso de velocidad de alguno de los vehículos implicados, queda claro que la tendencia es también a la baja. En el periodo observado, 2015 es el año con más accidentes por exceso de velocidad -81- mientras que 2022 es el que registra menos accidentes de este tipo con tan solo 35, menos de la mitad que siete años antes. La tendencia se observa tanto en términos absolutos como en términos relativos, <b>en 2015 el exceso de velocidad era el causante de 1 de cada 123 accidentes, mientras que en 2022, fue el desencadenante de 1 de cada 228 accidentes</b>.</p>
+				            </div>
+			          </article>
+
+			         <figure>
+				           <!-- <p>0</p> -->
+			         </figure>
+		        </section>
+
+		        <section id="outro">
+                <div class="bloque_texto">
+                    <br>
+                    <h4 class="ladillo">Las vías principales con límite 30 reducen la accidentalidad</h4>
+                    <br>
+                    <p class="intro__dek">La apuesta del consistorio por reducir la velocidad máxima a 30 km/h también en calles de la llamada red principal -más de dos carriles en algún sentido de la marcha- parece haber dado sus frutos si nos fijamos en los datos.</p>
+                    <br>
+                    <p class="intro__dek"> En total son 15 las calles en las que se ha aplicado esta medida a lo largo de los años 2020 y 2021 y en 13 de ellas -todas excepto la carretera del Carmel y la calle Almogàvers, donde la accidentalidad ya era muy baja- los accidentes se han reducido.</p>
+                </div>
+                <br>
+                <div  class="bloque_texto">
+                   <table class="lightable-material" style='font-family:serif; width: auto !important; margin-left: auto; margin-right: auto;'>
+                        <thead>
+                            <tr>
+                                <th style="text-align:left;"> Calle </th>
+                                <th style="text-align:right;"> Accidentes 2019 </th>
+                                <th style="text-align:right;"> Accidentes 2022 </th>
+                                <th style="text-align:right;"> Variación (%) </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align:left;"> Diputació </td>
+                                <td style="text-align:right;"> 96 </td>
+                                <td style="text-align:right;"> 47 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -51.0 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Passeig del Taulat </td>
+                                <td style="text-align:right;"> 8 </td>
+                                <td style="text-align:right;"> 4 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -50.0 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Carrer de Sants </td>
+                                <td style="text-align:right;"> 62 </td>
+                                <td style="text-align:right;"> 33 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -46.8 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Creu Coberta </td>
+                                <td style="text-align:right;"> 30 </td>
+                                <td style="text-align:right;"> 16 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -46.7 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Doctor Pi i Molist </td>
+                                <td style="text-align:right;"> 9 </td>
+                                <td style="text-align:right;"> 5 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -44.4 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Mandri </td>
+                                <td style="text-align:right;"> 14 </td>
+                                <td style="text-align:right;"> 8 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -42.9 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Consell de Cent </td>
+                                <td style="text-align:right;"> 100 </td>
+                                <td style="text-align:right;"> 59 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -41.0 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Jordi Girona </td>
+                                <td style="text-align:right;"> 3 </td>
+                                <td style="text-align:right;"> 2 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -33.3 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Passeig de Torras i Bages </td>
+                                <td style="text-align:right;"> 13 </td>
+                                <td style="text-align:right;"> 9 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -30.8 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Av. Mare de Déu de Montserrat </td>
+                                <td style="text-align:right;"> 22 </td>
+                                <td style="text-align:right;"> 16 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -27.3 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Via Laietana </td>
+                                <td style="text-align:right;"> 37 </td>
+                                <td style="text-align:right;"> 27 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -27.0 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Travessera de Gràcia </td>
+                                <td style="text-align:right;"> 49 </td>
+                                <td style="text-align:right;"> 47 </td>
+                                <td style="text-align:right;color: white !important;background-color: green !important;"> -4.1 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Carretera del Carmel </td>
+                                <td style="text-align:right;"> 6 </td>
+                                <td style="text-align:right;"> 9 </td>
+                                <td style="text-align:right;color: white !important;background-color: red !important;"> 50.0 % </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:left;"> Almogàvers </td>
+                                <td style="text-align:right;"> 5 </td>
+                                <td style="text-align:right;"> 11 </td>
+                                <td style="text-align:right;color: white !important;background-color: red !important;"> 120.0 % </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="bloque_texto">
+                    <p class="intro__dek">Destaca la drástica reducción de la accidentalidad en vías con un alto volumen de circulación, como las calles Diputació, Consell de Cent, Creu Coberta o la calle de Sants, donde el número de expedientes iniciados por la Guàrdia Urbana se ha reducido en más de un 40% entre 2019 y 2022.</p>
+                <br>
+                <h4 class="ladillo">Los accidentes se reducen en 63 de los 73 barrios de Barcelona</h4>
+                <br>
+                <p class="intro__dek">El declive en el número de accidentes ha sido generalizado en casi todos los barrios de la ciudad. Solo han aumentado las colisiones en barrios periféricos, con menos tráfico, y en el barrio del Clot, donde en los últimos años la circulación se ha visto afectada por diversas obras en la vía pública.</p>
+                <br>
+                <p class="intro__dek">En 52 barrios los accidentes se han reducido en más de un 10% y en 38 barrios -más de la mitad- la reducción ha superado el 20%. Además, llama la atención la disminución del 30% en la Dreta de l'Eixample, el barrio con más accidentalidad. También destaca el 40% de la Marina del Prat Vermell, donde se ha pasado de 279 accidentes en 2019 a 167 en 2022.</p>
+                <br>
+                <img src="img/mapa_diferencia_accidentes.svg" alt="Mapa diferencia accidentes">
+                <br>
+                <p class="intro__dek">Los datos también muestran que solo han incrementado los accidentes en un barrio -Sant Gervasi-la Bonanova- afectado por la limitación a 30 km/h en calles principales. El incremento en este caso ha sido irrisorio, de 201 accidentes en 2019 a 207 en 2022.</p>
+                </div>
+                <div class="bloque_texto">
+                <br>
+                <h4 class="ladillo">Los curces del Eixample, la asignatura pendiente</h4>
+                <br>
+                <p class="intro__dek">A pesar de la drástica reducción de los accidentes en toda la ciudad, hay zonas que siguen concentrando un gran volumen de colisiones. En 2022, el distrito del Eixample es el que ha registrado más accidentes, muchos de los cuales se han producido en la calle Aragón, que ha sumado 217 accidentes en un año, y la Gran Via de les Corts Catalanes, que ha acumulado 456.</p>
+                <img src="img/mapa_calor_bcn_2.png">
+                <p class="intro__dek">Especialmente conflictivos son los cruces de las calles ubicadas entre Muntaner y Roger de Llúria, como por ejemplo el cruce entre las calles Aragó y Balmes, que ha sumado cinco accidentes en un año.</p>
+                </div>
+                <br>
+                <div class="barra_sup"></div>
+            </section>
+	      </main>
+    </body>
+</html>

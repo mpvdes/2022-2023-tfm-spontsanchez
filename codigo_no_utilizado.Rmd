@@ -1,0 +1,28 @@
+---
+title: "Untitled"
+author: "Sergi Pont"
+date: "2023-09-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Otras cosas que he probado
+
+
+mapa_diferencia_accidentes
+```{r}
+library(plotly)
+interactive_plot <-ggplotly(map1)
+interactive_plot <- interactive_plot %>%
+  style(hoverinfo = "text") %>%
+  highlight("plotly_hover", dynamic = FALSE) %>%
+  layout(hoverlabel = list(bgcolor = "white", font = list(size = 14), bordercolor = "black"))
+```
+
+```{r}
+interactive_plot
+```
+

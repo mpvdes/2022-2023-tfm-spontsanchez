@@ -1,0 +1,198 @@
+---
+author: "Sergi Pont"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+# Creación de un mapa para representar la variación en el número de accidentes entre 2019 y 2022
+
+En primer lugar, especificamos el directorio en el que vamos a trabajar con la función `setwd()`.
+```{r}
+setwd('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm')
+```
+
+Cargamos los paquetes necesarios. En caso de que no los tengamos instalados en el equipo, las primeras cuatro líneas de código los instalarán.
+```{r}
+if(!require(dplyr)) {install.packages("dplyr"); require(dplyr)}
+if(!require(sf)) {install.packages("sf"); require(sf)}
+if(!require(ggplot2)) {install.packages("ggplot2"); require(ggplot2)}
+if(!require(sp)) {install.packages("ggplot2"); require(sp)}
+
+library(sf)
+library(ggplot2)
+library(sp)
+library(dplyr)
+```
+
+Cargamos los datasets necesarios:
+- Con la función `read_csv` cargamos el dataset de accidentes y el dataset con la lista de calles de la red primaria cuya velocidad se ha reducido de 50 km/h a 30 km/h.
+- Con la función `st_read` cargamos los shapefiles de los barrios de Barcelona y las calles de Barcelona.
+
+En ambos casos hay que indicar la ruta donde se encuentran los datasets.
+```{r}
+accidentes <- readr::read_csv('datasets_accidentes/datos_accidentes.csv')
+barris <- st_read('shapefiles_bcn/bcn_unitats_administratives/0301040100_Barris_UNITATS_ADM.shp')
+carrers_bcn <- st_read('shapefiles_bcn/bcn_carrers/BCN_GrafVial_Trams_ETRS89_SHP.shp')
+calles_30 <- st_read('shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
+```
+
+Descomentar la línea de código para ver el dataframe 'accidentes':
+```{r}
+# view(accidentes)
+```
+
+En el dataframe `accidentes`, la columna `any` es de tipo `string`. Cambiamos el tipo de columna a numérica con la función `mutate` y la función `as.numeric`.
+```{r}
+accidentes <- accidentes %>%
+  mutate(any = as.numeric(any))
+```
+
+Para poder representar la variación porcentual de accidentes entre los años 2019 y 2022 por barrios, tenemos que crear un dataframe que contenga el número de accidentes en 2019 en cada barrio, el número de accidentes en 2022 en cada barrio y la variación porcentual entre ambos años.
+
+En primer lugar, creamos un dataframe `accidentes_2019`. Con la función `filter` indicamos que solo queremos los accidentes cuya variables `any` corresponda a 2019. Con la función `group_by` los agrupamos por la variables `codi_barri`. Con la función `summarize` creamos una columna cuyo valor sea el sumatorio de accidentes según los filtros y agrupaciones anteriores.
+
+Opcionalmente, podemos ordenar los valores en orden descendiente con las funciones `arrange`(ordenar) y `desc`(descendiente) para ver qué barrios son los que acumularon más accidentes en 2019.
+
+```{r}
+accidentes_19 <- accidentes %>%
+  filter(any==2019) %>%
+  group_by(codi_barri) %>%
+  summarize(accident_count=n())
+
+accidentes_19 <- accidentes_19 %>%
+  arrange(desc(accident_count))
+```
+
+Repetimos los mismos pasos para crear un dataframe `accidentes_2022` que con los accidentes por barrios en el año 2022.
+```{r}
+accidentes_22 <- accidentes %>%
+  filter(any==2022) %>%
+  group_by(codi_barri) %>%
+  summarize(accident_count=n())
+
+accidentes_22 <- accidentes_22 %>%
+  arrange(desc(accident_count))
+```
+
+Unimos los dataframes `accidentes_2019` y `accidentes_2022` en un solo dataframe `accidentes_dif`. Con la función `merge` indicamos los dos dataframes que queremos unir y la variables que usaremos como referencia para unirlos, en este caso `codi_barri`.
+```{r}
+accidentes_dif <- merge(accidentes_19, accidentes_22, by="codi_barri")
+```
+
+Descomentar la línea para ver el dataframe resultante:
+```{r}
+# view(accidentes_dif)
+```
+
+Creamos una nueva columna `var`, con la variación porcentual de accidentes entre 2019 y 2022, tomando como referencia el año 2019. Usamos la función `mutate` para crear la columna y la fórmula de cálculo de porcentaje: ((y-x)/x)*100
+```{r}
+accidentes_dif <- accidentes_dif %>%
+  mutate(var = (accident_count.y - accident_count.x)/accident_count.x * 100)
+```
+
+En el dataframe actual tenemos un número reducido de accidentes a los que no se asigno un código de barrio y aparecen con un `codi_barri` igual a -1. Para eliminar esta fila, sobreescribimos el dataframe `accidentes_dif`. Indicamos que queremos un dataframe que sea un subconjunto del dataframe anterior en el que solo se incluyan las filas cuya variables `codi_barri` sea igual o mayor que 0, eliminando así la fila cuyo valor es -1.
+```{r}
+accidentes_dif <- subset(accidentes_dif, codi_barri >= 0)
+```
+
+Ya tenemos listo el dataframe `accidentes_dif`, en el que se incluyen los accidentes por barrios en los años 2019 y 2020 y la variación porcentual.
+
+El próximo paso consiste en unir el dataframe `accidentes_dif` con el dataframe `barris`, que contiene los datos geográficos de los barrios de Barcelona. Este paso nos permitirá representar los datos gráficamente en un mapa.
+
+Pero antes, tenemos que preparar el dataframe `barris` para después poder realizar la unión entre ambos dataframes.
+
+En primer lugar, cambiamos el nombre de la columna que nos servirá como referencia para unir los dataframes. Hemos estados trabajando con los códigos de barrio, por lo que usaremos la columna que corresponde a los códigos de barrio, que en este caso se llama `BARRI`. Le asignamos el mismo nombre que la columna de los códigos de barrio en el dataframe `dif_accidentes`, en este caso, `codi_barri`.
+```{r}
+colnames(barris)[colnames(barris) == "BARRI"] <- "codi_barri"
+```
+
+```{r}
+# view(accidentes_dif)
+```
+
+Los códigos de barrio menores de 10 del dataframe `barris` contienen un 0 delante de las unidades. Esto no pasa en los códigos de barrio del dataframe `accidentes_dif`. Para poder unir los dataframes correctamente, eliminamos los 0 situados a la izquierda de las unidades en la columna `codi_barri` del dataframe `barris`.
+
+La función `gsub` sirve para hacer substituciones de strings, indicando primero los valores que se quieren sustituir, seguido de los valores que lo sustituyen y, finalmente, la columna donde se deben realizar las sustituciones.
+```{r}
+barris$codi_barri <- gsub("^0+", "", barris$codi_barri)
+```
+
+La variables `codi_barri` es un string. La cambiamos a una variable numérica para poder realizar la unión de ambos dataframes.
+```{r}
+barris <- barris %>%
+  mutate(codi_barri = as.numeric(codi_barri))
+```
+
+Ahora sí, ya podemos unir los dataframes.
+Con la función `left_join`, indicamos que queremos tomar como dataframe de referencia `barris` y anexar el dataframe `accidentes_dif` por la columna `codi_barri`.
+```{r}
+barris <- left_join(barris, accidentes_dif, by="codi_barri")
+```
+
+La variable `var`, que indica la variación porcentual de accidentes entre 2019 y 2022, contiene muchos decimales. Para eliminar todos los decimales, usamos la función `round`. Si no especificamos el número de decimales que queremos, por defecto redondeará a las unidades.
+```{r}
+barris$var <- round(barris$var)
+```
+
+Para poder incluir en el mapa una capa con las calles de la red primaria cuya velocidad se ha reducido de 50 a 30 km/h, tenemos que crear un dataframe con estas calles.
+
+Creamos un vector `codigos_calles_30` con los códigos de estas calles.
+
+Filtramos el dataset de información geográfica `carrers_bcn`, manteniendo solo las calles cuya variable `CVia_E` esté incluída en el vector `codigos_calles_30`.
+```{r}
+codigos_calles_30 <- c(calles_30$codi_carrer)
+
+carrers_30_bcn <- carrers_bcn %>%
+  filter(CVia_E %in% codigos_calles_30)
+```
+
+En el mapa, queremos que se muestren los datos de determinados barrios que tienen un interés periodístico.
+
+Filtramos el dataframe `barris` para crear un dataframe nuevo `barrios_etiquetas` que solo contenga las filas cuya variables `NOM` esté incluída en el vector que le preoporcionamos. En este caso, queremos que se representen las etiquetas y los datos de "la Dreta de l'Eixample", "el Camp de l'Arpa del Clot", "la Marina del Prat Vermell".
+```{r}
+barrios_etiquetas <- barris[barris$NOM %in% c("la Dreta de l'Eixample", "el Camp de l'Arpa del Clot", "la Marina del Prat Vermell"), ]
+```
+
+
+```{r}
+mapa_diferencia_accidentes <- ggplot(data=barris) +
+  
+  geom_sf(aes(fill=var)) +
+  
+  scale_fill_gradient2(
+  low = "green",
+  mid = "white",
+  high = "red",
+  midpoint = 0,
+  limits = c(-90, 50),
+  guide = "colorbar") +
+  
+  geom_sf(data=carrers_30_bcn, color='black') +
+  
+  geom_sf_label(data=barrios_etiquetas,
+                aes(label=paste(NOM,': ',var,'%')),
+                fill="white",
+                alpha=0.5,
+                size=3,
+                label.size=0) +
+  
+  labs(
+    title = "Evolución del número de accidentes por barrios (2019-2022)")
+```
+
+```{r, fig.width=10}
+mapa_diferencia_accidentes
+```
+
+```{r}
+ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/mapa_diferencia_accidentes.svg", plot = mapa_diferencia_accidentes, device = "svg")
+```
+
+```{r}
+accidentes_dif[order(accidentes_dif$var),]
+```
+
+

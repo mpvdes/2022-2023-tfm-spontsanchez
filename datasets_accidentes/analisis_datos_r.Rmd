@@ -1,0 +1,198 @@
+---
+title: "Análisis datos accidentes"
+author: "Sergi Pont"
+date: "2023-08-27"
+output: html_document
+---
+
+#Análisis de los datos de accidentes
+##Datos de accidentes de tráfico en Barcelona, entre 2015 y 2022
+
+En este documento voy a analizar la base de datos sobre accidentes de tráfico en Barcelona entre 2015 y 2022 para observar la evolución durante estos ocho años y encontrar patrones que se repitan.
+
+En primer lugar, cargo las librerías necesarias para poder trabajar con los datos:
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+
+A continuación, indico el directorio en el que voy a trabajar:
+```{r}
+setwd("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidentes")
+```
+
+Cargo el dataset guardado en el archivo CSV 'datos_accidentes.csv':
+```{r}
+accidentes <- read.csv("datos_accidentes.csv")
+accidentes
+```
+
+Analizo la evolución temporal de los accidentes de tráfico. Se ve que se reducieron mucho durante la pandemia, pero que después se ha mantenido mucho el descenso respecto los años anteriores.
+```{r}
+accidentes$data <- as.Date(accidentes$data)
+datos_histograma <- cut(accidentes$data, breaks = seq(min(accidentes$data), max(accidentes$data) + 50, by = "50 days"))
+histogram_counts <- table(datos_histograma)
+histogram_df <- data.frame(Interval = names(histogram_counts), Count = as.numeric(histogram_counts))
+ggplot(histogram_df, aes(x = Interval, y = Count)) +
+  geom_histogram(stat = "identity", fill = "blue") +
+  labs(x = "Date Interval (50 days)", y = "Number of Accidents") +
+  ggtitle("Evolution of Accidents Over 50-Day Intervals")
+```
+Los accidentes por alcoholemia se producen sobre todo por la noche.
+```{r}
+alcoholemia <- accidentes %>%
+  filter(c_alcoholemia>0)
+
+ggplot(alcoholemia, aes(x = torn)) +
+  geom_bar() +
+  labs(
+    title = "Accidentes por alcoholemia por cada turno",
+    x = "Turno",
+    y = "Número de accidenetes"
+  )
+```
+```{r}
+alcoholemia <- accidentes %>%
+  filter(c_alcoholemia>0)
+
+ggplot(alcoholemia, aes(x = hora)) +
+  geom_bar() +
+  labs(
+    title = "Accidentes con positivo por alcoholemia por horas",
+    x = "Hora",
+    y = "Accidentes"
+  )
+```
+
+Tabla de accidentes con muertos por año. En 2020 y 2021 se han reducido el número de muertos, pero en 2022 se ha vuelto a niveles de antes de la pandemia. De todos modos, son cifras bajas, por lo que no tienen gran representatividad estadística.
+```{r}
+muertes <- accidentes %>%
+  group_by(any) %>%
+  summarise(total = sum(morts))
+
+muertes
+```
+
+
+Tabla de accidentes graves por año. Después de la pandemia se han reducido y se ha mantenido la reducción.
+```{r}
+graves <- accidentes %>%
+  group_by(any) %>%
+  summarise(total = sum(greus))
+
+graves
+```
+
+```{r}
+ggplot(accidentes, aes(x = factor(torn), y = morts)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(x = "Turno", y = "Número de muertes",
+       title = "Número de muertes por accidente por cada turno")
+```
+Calculo cuantos accidentes se han producido por exceso de velocidad por año.
+```{r}
+velocidad <- accidentes %>%
+  group_by(any) %>%
+  summarise(total = sum(c_exces_velocitat))
+velocidad
+```
+
+Calculo cuántas muertes se han producido por exceso de velocidad por año.
+```{r}
+muertes_velocidad <- accidentes %>%
+  filter(c_exces_velocitat>0) %>%
+  group_by(any) %>%
+  summarise(total = sum(morts))
+
+muertes_velocidad
+```
+
+Calculo cuantos accidentes graves se han producido por exceso de velocidad por año.
+```{r}
+graves_velocidad <- accidentes %>%
+  filter(c_exces_velocitat>0) %>%
+  group_by(any) %>%
+  summarise(total = sum(greus))
+
+graves_velocidad
+```
+
+```{r}
+leves_velocidad <- accidentes %>%
+  filter(c_exces_velocitat>0) %>%
+  group_by(any) %>%
+  summarise(total = sum(lleus))
+
+leves_velocidad
+```
+
+
+```{r}
+utm_data <- data.frame(
+  easting = accidentes$UTM_X,
+  northing = accidentes$UTM_Y
+)
+
+filtered_utm_data <- utm_data[(utm_data$easting>10) & !is.na(utm_data$northing>10), ]
+value = c(10000, 15000, 20000)
+
+ggplot(filtered_utm_data, aes(x = easting, y = northing, fill=value)) +
+  geom_tile() +  # Use 'x' values to determine heatmap colors
+  scale_fill_gradient(low = "white", high = "blue") +  # Define color gradient
+  labs(x = "UTM Easting (X)", y = "UTM Northing (Y)") +
+  ggtitle("Heatmap of UTM Data (Excluding NaN)")
+```
+
+```{r}
+muertos <- accidentes[accidentes$morts==1, ]
+
+filtered_utm_data <- muertos[(utm_data$easting>10) & !is.na(utm_data$northing>10), ]
+
+filtered_utm_data
+```
+
+```{r}
+# Create a sample data frame with UTM coordinates
+utm_data <- data.frame(
+  easting = muertos$UTM_X,
+  northing = muertos$UTM_Y
+)
+
+# Create a scatter plot using ggplot2
+ggplot(utm_data, aes(x = easting, y = northing)) +
+  geom_point() +
+  labs(x = "Easting", y = "Northing", title = "UTM Coordinates Scatter Plot")
+```
+
+```{r}
+utm_data_2 <- data.frame(
+  easting = accidentes$UTM_X,
+  northing = accidentes$UTM_Y
+)
+
+# Create a scatter plot using ggplot2
+ggplot(utm_data_2, aes(x = easting, y = northing)) +
+  geom_point() +
+  labs(x = "Easting", y = "Northing", title = "UTM Coordinates Scatter Plot")
+```
+
+```{r}
+library(sf)
+```
+
+```{r}
+accidentes_19 <- accidentes %>%
+  filter(any==2019) %>%
+  summarize(Numero_de_Accidentes = n())
+
+accidentes_22 <- accidentes %>%
+  filter(any==2022) %>%
+  summarize(Numero_de_Accidentes = n())
+
+accidentes_22
+```
+```{r}
+((accidentes_22 - accidentes_19)/accidentes_19)*100
+```
+
+

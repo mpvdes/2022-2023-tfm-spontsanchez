@@ -1,0 +1,302 @@
+---
+title: "representacion_datos_r"
+author: "Sergi Pont"
+date: "2023-09-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Creación de gráficos para representar la evolución de accidentes de tráfico entre 205 y 2022
+
+En primer lugar, cargamos los paquetes que vamos a necesitar para filtrar los datos y crear la tabla: "ggplot2", dplyr" y "plotly". Previamente, y en caso de que sea necesario, instalamos los paquetes en nuestro equipo).
+```{r}
+if(!require(ggplot2)) {install.packages("vcd"); require(ggplot2)}
+if(!require(plotly)) {install.packages("vcd"); require(plotly)}
+if(!require(dplyr)) {install.packages("vcd"); require(dplyr)}
+
+library(ggplot2)
+library(plotly)
+library(dplyr)
+```
+
+Con el comando setwd, indicamos el directorio del equipo en el que vamos a trabajar.
+```{r}
+setwd("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm")
+```
+
+Leemos el dataframe que necesitamos para hacer la representación de los datos. Se tratat de un archivo formato CSV, así que lo leemos con el comando 'read.csv', indicando la ruta relativa donde se encuentra el archivo.
+```{r}
+accidentes <- read.csv("datasets_accidentes/datos_accidentes.csv")
+```
+
+## Elaboración de un gráfico de barras con los accidentes de tráfico en cada mes entre 2015 y 2022
+
+Para elaborar un gráfico de barras con los accidentes mensuales entre 2015 y 2022, creo un dataframe que contenga todos los meses entre 2015 y 2022, con los accidentes correspondientes para cada mes.
+
+Con la función mutate(), creo una columna que llamaremos 'mes', compuesta por el año y el mes, separados por un guion. Para unir las variables, uso la función paste().
+A continuación agrupamos todos los accidentes por mes con la función group_by() y finalmente representamos el sumatorio de accidentes de cada mes en una variable que llamaremos 'num_accidentes'.
+```{r}
+accidentes_mes <- accidentes %>%
+  mutate(mes = paste(any, mes, sep = "-")) %>%
+  group_by(mes) %>%
+  summarise(num_accidentes = n())
+```
+
+Para poder ordenar los meses, añado una columna 'fecha', con un formato de fecha, asignando a cada mes el primer día del mes. Por ejemplo, enero del 2015 es 2015-01-01 o abril del 2019 es 2019-04-01. esto me permitirá después ordenar los meses por fecha usando esta columna.
+```{r}
+accidentes_mes$fecha <- as.Date(paste(accidentes_mes$mes, "01", sep="-"))
+```
+
+Con la función order(), ordeno las filas en función de la columna 'fecha'.
+```{r}
+accidentes_mes <- accidentes_mes[order(accidentes_mes$fecha), ]
+```
+
+```{r}
+accidentes_mes
+```
+
+Con el paquete ggplot2, creo un gráfico de barras.
+
+- función ggplot(): Indico el dataset (accidentes_es), y las coordenadas del gráfico (en el eje x se representa la columna 'mes' y en el eje y se representa la columna 'num_accidentes')
+- función geom_bar(): El argumento stat='identity' indica que los valores en el dataframe de los datos representan directamente las alturas de las barras en el gráfico. El argumento fill='black' indica que las columnas se rellenan de color negro
+- labs(): indica los títulos del gráfico y de los ejes: x <- título del eje x, y <- título del eje y, title <- título del gráfico.
+- Scale_x_discrete(): Indico cómo quiero representar el eje x, con etiquetas solo para los valores en posición 6, 18, 30, 42, 54, 66, 78, 90 y especificando el string para cada una de las etiquetas con el argumento 'labels'.
+
+```{r}
+diagrama_accidentes <- ggplot(accidentes_mes, aes(x = fecha, y = num_accidentes)) +
+    geom_bar(stat = "identity", fill = "black") +
+  labs(x = "", y = "Accidentes", title = "Evolución mensual del número de accidentes (2015-2022)") +
+  scale_x_date(date_labels = "%Y", date_breaks = "12 months")
+```
+
+```{r}
+diagrama_accidentes
+```
+
+Con la función de ggplot2 ggsave(), exporto el gráfico. Indico la ruta completa del archivo en el argumento 'filename', el nombre del gráfico que estoy exportando en 'plot', el formato en 'device' y las dimensiones en 'width' y 'height'.
+```{r}
+# ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_accidentes.svg", plot = diagrama_accidentes, device = "svg", width = 9, height = 6)
+```
+
+## Elaboración de un gráfico de barras apiladas para representar la evolución del número de víctimas graves y mortales en accidentes de tráfico entre 2015 y 2022
+
+En primer lugar, creamos el dataframe a partir del cual se generará el gráfico.
+
+Creo un dataframe 'graves' que contenga los heridos graves en accidente agrupados por años. En primer lugar agrupo los accidentes por años con la función group_by() y después sumo todos losvalores de la columna 'greus' con la función sum() y los represento en una nueva columna 'heridos_graves'.
+```{r}
+graves <- accidentes %>%
+  group_by(any) %>%
+  summarise(heridos_graves = sum(greus))
+```
+
+Repito el proceso anterior para crear un dataframe llamado 'muertos', que contenga el sumatorio de personas muertas por cada año. En este caso, sumo los datos de la columna 'morts'.
+```{r}
+muertos <- accidentes %>%
+  group_by(any) %>%
+  summarise(personas_muertas = sum(morts))
+```
+
+Finalmente, creo un dataframe 'total_graves_muertos' que agrupe los dos dataframes anteriores.
+Con la función inner_join() se combinan los dataframes 'graves' y 'muertos'. Indicamos que la columna común es 'any', ya que se encuentra en ambos dataframes.
+```{r}
+total_graves_muertos <- graves %>%
+  inner_join(muertos, by="any")
+```
+
+Con la función view() podemos visualizar el dataframe resultante.
+```{r}
+total_graves_muertos
+```
+
+Creación del gráfico de barras apiladas con el paquete ggplot2:
+
+1. Con la función ggplot() indicamos el dataframe utilizado (total_graves_muertos) y la variable que utilizaremos para la base del gráfico, es decir para el eje x. Con la función aes() indicamos que la x corresponde a la columna 'any'.
+
+2. Con la función geom_bar() indicamos que vamos a crear un gráfico de barras. Al utilizar dos veces la función geom_bar(), se creará un gráfico con dos barras apiladas, una para cada variable indicada.
+ - Con la función aes() indicamos como se va a formar la columna del gráfico. Con el argumento 'y' especificamos qué columna del dataframe utilizaremos en cada caso y con argumento 'fill' indicamos el texto de la leyenda. El argumento 'stat' sirve para indicar la relación entre la variable y el aspecto de la columna. En este caso "identity" indica que corresponde exactamente al valor de la variable.
+
+3. Con la función geom_text() indicamos el texto que queremos que aparezca en las columnas del gráfico. El argumento 'label' indica la variable a la que hace referencia el texto. Con el argumento 'position' indicamos dónde se situa el texto usando en función del argumento 'vjust', que indica la posición respecto de la barra (siendo 0 el extremo inferior y 1 el extremo superior). 'Size' indica el tamaño del texto, 'color' el color del texto y 'family', el tipo de letra.
+
+4. Con la función labs() damos forma a los títulos del gráfico. En el eje x no ponemos título, porque por el título del gráfico y las etiquetas del eje, se entiende que nos referimos a años. El título del eje y indica que nos referimos a víctimas mortales y heridos. El argumento 'title' sirve para indicar el título del gráfico.
+
+5. con la función scale_fill_manual() indicamos los colores de las categorías del gráfico mediante un vector que relaciona el nombre de la columna y el color elegido.
+
+6. La función theme_minimal() configura el gráfico con un estilo minimalista y limpio.
+
+7. La función theme() sirve para especificar otros elementos de apariencia del gráfico.
+ - El argumento 'legend.title', para el texto de la leyenda, que en este caso lo dejamos vacío.
+ - El argumento 'legend.position', para la ubicación de la leyenda. 'Bottom' indica que lo situamos debajo del gráfico.
+ - El argumento 'axis.text.x' para indicar las características de las etiquetas del eje x.
+
+```{r}
+diagrama_graves_muertos <- ggplot(total_graves_muertos, aes(x = any)) +
+  
+  geom_bar(aes(y = (heridos_graves+personas_muertas), fill = "Heridos graves"), stat = "identity") +
+  
+  geom_bar(aes(y = personas_muertas, fill = "Personas muertas"), stat = "identity") +
+  
+  geom_text(
+    aes(label = (heridos_graves+personas_muertas), y = (heridos_graves+personas_muertas)),
+    position = position_stack(vjust = 1.07),
+    size = 4,
+    color = "#808080",
+    family = "sans") +
+  
+  geom_text(
+    aes(label = heridos_graves, y = (heridos_graves+personas_muertas)),
+    position = position_stack(vjust = 0.8),
+    size = 4,
+    color = "white",
+    family = "sans") +
+  
+  geom_text(
+    aes(label = personas_muertas, y = personas_muertas),
+    position = position_stack(vjust = 1.7),
+    size = 4,
+    color = "black",
+    family = "sans") +
+  
+  labs(x = NULL, y = "Víctimas moratles y heridos", title = "Evolución anual del número de muertos y heridos graves (2015-2022)") +
+  
+  scale_fill_manual(values = c("Personas muertas" = "black", "Heridos graves" = "#808080")) +
+  
+  theme(legend.title = element_blank(),
+        legend.position = "bottom")
+```
+
+Descomentar la línea para visualizar el gráfico:
+```{r}
+diagrama_graves_muertos
+```
+
+Con la función de ggplot2 ggsave(), exporto el gráfico. Indico la ruta completa del archivo en el argumento 'filename', el nombre del gráfico que estoy exportando en 'plot', el formato en 'device' y las dimensiones en 'width' y 'height'.
+
+Descomentar la línea para exportar el gráfico:
+```{r}
+ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_graves_muertos_2.svg", plot = diagrama_graves_muertos, device = "svg", width = 9, height = 6)
+```
+
+## Elaboración de un gráfico de barras simples apra representar la evolución de los accidentes de tráfico causados por exceso de velocidad
+
+Con el paquete 'dplyr', filtramos el dataframe 'accidentes' para crear otro dataframe 'accidentes_exceso_velocidad' en el que solo aparezca el número de accidentes causados por exceso de velocidad agrupados por años.
+
+Con la función 'filter()' indicamos que solo queremos las filas cuyo valor en la columna 'c_exces_velocitat' sea igual a 1. La columna 'c_exces_velocitat' del dataframe 'accidentes' es una columna de booleanos (0 indica que el accidente no ha sido causado por exceso de velocidad, mientras que 1 indica que el accidente sí que ha sido causado por exceso de velocidad).
+
+Con la función 'group_by()', agrupamos los accidentes por años (columna 'any').
+
+Con la función 'summarize()' creamos una nueva columna llamada 'total_exceso_velocidad' que contendrá el sumatorio de accidentes agrupados por año y filtrados en función de su valor en la columna 'c_exces_velocitat'.
+
+```{r}
+accidentes_exceso_velocidad <- accidentes %>%
+  filter(c_exces_velocitat==1) %>%
+  group_by(any) %>%
+  summarize(total_exceso_velocidad=n())
+```
+
+A continuación, elaboramos el gráfico de barras simples con el paquete ggplot2.
+
+```{r}
+diagrama_exceso_velocidad <- ggplot(accidentes_exceso_velocidad, aes(x = any, y = total_exceso_velocidad)) +
+  
+  geom_bar(stat = "identity", fill = "black") +
+  
+  labs(x = "", y = "Accidentes", title = "Evolución de los accidentes por exceso de velocidad (2015-2022)") +
+  geom_text(
+    aes(label = total_exceso_velocidad, y = total_exceso_velocidad),
+    position = position_stack(vjust = 0.9),
+    size = 4,
+    color = "white",
+    family = "sans")
+```
+
+Descomentar la línea para visualizar el gráfico:
+```{r}
+# diagrama_exceso_velocidad
+```
+
+## Descarga de los gráficos en formato SVG
+
+Con la función de ggplot2 ggsave(), exporto el gráfico. Indico la ruta completa del archivo en el argumento 'filename', el nombre del gráfico que estoy exportando en 'plot', el formato en 'device' y las dimensiones en 'width' y 'height'.
+
+```{r}
+ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_accidentes.svg", plot = diagrama_accidentes, device = "svg", width = 8.5, height = 5)
+```
+
+```{r}
+ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_graves_muertos.svg", plot = diagrama_graves_muertos, device = "svg", width = 8.5, height = 5)
+```
+
+```{r}
+ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_exceso_velocidad.svg", plot = diagrama_exceso_velocidad, device = "svg", width = 8.5, height = 5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Otras pruebas que he hecho
+
+Aquí creo un bar chart amb el total de ferits en accidents de trànsit, separant-los entre lleus, greus i morts.
+```{r}
+interactive_plot <- ggplotly(grafico)
+
+interactive_plot
+```
+
+
+```{r}
+fig <- plot_ly(accidentes, x = ~any, y = ~greus, type = 'bar', name = 'Last Year') %>%
+  add_trace(data , x = ~any, y = ~morts, type = 'scatter',  mode = 'lines', name = 'This year')
+
+fig <- fig %>% layout(yaxis = list(title = "Amount"))
+fig <- fig %>% layout(legend=list(title=list(text='<b> Time Period </b>')))
+fig
+```
+
+
+Primero vamos a observar la evolcuión de los accidentes de tráfico y de su gravedad por año.
+```{r}
+qplot(any, data=accidentes, geom='bar')
+```
+
+
+```{r}
+counts <- accidentes %>%
+  group_by(any) %>%
+  summarise(Count = n())
+
+graves <- accidentes %>%
+  group_by(any) %>%
+  summarise(Count = sum(greus))
+
+bar_chart <- plot_ly(counts, x = ~any, y = ~Count, type = 'bar', name = 'Heridos',
+                     text = ~paste("Personas implicadas:", Count),
+                      marker = list(color = 'rgb(158,202,225)',
+                      line = list(color = 'rgb(8,48,107)',
+                                  width = 1.5)))%>%
+   add_trace(counts, x = ~any, y = ~graves, type = 'scatter',  mode = 'lines', name = 'Graves')%>%
+
+  layout(title = list(text = "Personas implicadas en accidentes cada año",
+                 font = list(family = "Arial", size = 20, color = "blue")),
+         xaxis = list(title = "Año", font = list(family = "Arial", size = 14)),
+         yaxis = list(title = "Accidentados", font = list(family = "Arial", size = 14)),
+         hovertemplate="Accidentados: %{y}",
+         showlegend=TRUE,
+         plot_bgcolor='gray',
+         paper_bgcolor='gray')
+
+bar_chart
+```
+

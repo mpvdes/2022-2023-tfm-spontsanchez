@@ -1,0 +1,152 @@
+---
+title: "Untitled"
+author: "Sergi Pont"
+date: "2023-09-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm')
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(sf)
+```
+
+```{r}
+accidentes <- read.csv('datasets_accidentes/datos_accidentes.csv')
+```
+
+```{r}
+accidentes
+```
+
+```{r}
+accidentes_calles_30 <- accidentes %>%
+  filter(codi_carrer==177101 |
+           codi_carrer==169023 |
+           codi_carrer==191703 |
+           codi_carrer==344101|
+           codi_carrer==67001 |
+           codi_carrer==365702 |
+           codi_carrer==103003 |
+           codi_carrer==339000 |
+           codi_carrer==11200 |
+           codi_carrer==701278 |
+           codi_carrer==100800 |
+           codi_carrer==89004|
+           codi_carrer==94809|
+           codi_carrer==312400|
+           codi_carrer==339101)
+```
+
+```{r}
+accidentes_30_19 <- accidentes_calles_30 %>%
+  filter(any==2019) %>%
+  group_by(codi_carrer)%>%
+  summarize(accidentes_2019=n())
+  
+```
+
+```{r}
+accidentes_30_22 <- accidentes_calles_30 %>%
+  filter(any==2022) %>%
+  group_by(codi_carrer)%>%
+  summarize(accidentes_2022=n())
+```
+
+```{r}
+dif_accidentes <- merge(accidentes_30_19, accidentes_30_22, by='codi_carrer')
+```
+
+```{r}
+dif_accidentes <- dif_accidentes %>%
+mutate(variacion = (accidentes_2022 - accidentes_2019)/accidentes_2019*100)
+```
+
+```{r}
+dif_accidentes
+```
+```{r}
+calles_30 <- read.csv('shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
+districtes <- st_read('shapefiles_bcn/bcn_fronteres_districtes/BCN_Fronterers_Trams_ETRS89_SHP.shp')
+```
+
+```{r}
+calles_30
+```
+
+```{r}
+names(calles_30)[names(calles_30) == "Codi.carrer"] <- "codi_carrer"
+```
+
+```{r}
+merge(dif_accidentes, calles_30, by='codi_carrer')
+```
+
+```{r}
+carrers_bcn <- st_read('shapefiles_bcn/bcn_carrers/BCN_GrafVial_Trams_ETRS89_SHP.shp')
+```
+
+```{r}
+carrers_30_bcn <- carrers_bcn %>%
+  filter(CVia_E==177101 |
+           CVia_E==169023 |
+           CVia_E==191703 |
+           CVia_E==344101|
+           CVia_E==67001 |
+           CVia_E==365702 |
+           CVia_E==103003 |
+           CVia_E==339000 |
+           CVia_E==11200 |
+           CVia_E==701278 |
+           CVia_E==100800 |
+           CVia_E==89004|
+           CVia_E==94809|
+           CVia_E==312400|
+           CVia_E==339101)
+```
+
+```{r}
+carrers_30_bcn <- carrers_30_bcn %>%
+  mutate(CVia_E = as.integer(CVia_E))
+```
+
+```{r}
+view(left_join(carrers_30_bcn, dif_accidentes, by = c("CVia_E" = "codi_carrer")))
+```
+
+```{r}
+plot(st_geometry(carrers_30_bcn), col='black', main='Mapa calles 30 BCN', lwd=0.8, axes=FALSE, grid=TRUE, bg='#cccccc') +
+text(st_coordinates(carrers_30_bcn), labels = carrers_30_bcn$variacion, pos = 3, cex = 0.7, col = 'red')
+```
+
+```{r}
+ggplot(data=districtes) +
+  geom_sf() +
+  geom_sf(data=carrers_30_bcn, color='red')
+```
+
+```{r}
+#install.packages("kableExtra")
+library(kableExtra)
+
+mi_tabla <- dif_accidentes %>%
+  kable(format = "html") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = "striped")
+
+print(mi_tabla)
+```
+
+
+
+
+
+
