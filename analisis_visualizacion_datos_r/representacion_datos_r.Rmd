@@ -29,7 +29,7 @@ setwd("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm")
 
 Leemos el dataframe que necesitamos para hacer la representación de los datos. Se tratat de un archivo formato CSV, así que lo leemos con el comando 'read.csv', indicando la ruta relativa donde se encuentra el archivo.
 ```{r}
-accidentes <- read.csv("datasets_accidentes/datos_accidentes.csv")
+accidentes <- read.csv("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidentes/datos_accidentes.csv")
 ```
 
 ## Elaboración de un gráfico de barras con los accidentes de tráfico en cada mes entre 2015 y 2022
@@ -215,7 +215,7 @@ diagrama_exceso_velocidad <- ggplot(accidentes_exceso_velocidad, aes(x = any, y 
 
 Descomentar la línea para visualizar el gráfico:
 ```{r}
-# diagrama_exceso_velocidad
+diagrama_exceso_velocidad
 ```
 
 ## Descarga de los gráficos en formato SVG
@@ -223,15 +223,15 @@ Descomentar la línea para visualizar el gráfico:
 Con la función de ggplot2 ggsave(), exporto el gráfico. Indico la ruta completa del archivo en el argumento 'filename', el nombre del gráfico que estoy exportando en 'plot', el formato en 'device' y las dimensiones en 'width' y 'height'.
 
 ```{r}
-ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_accidentes.svg", plot = diagrama_accidentes, device = "svg", width = 8.5, height = 5)
+#ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_accidentes.svg", plot = diagrama_accidentes, device = "svg", width = 8.5, height = 5)
 ```
 
 ```{r}
-ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_graves_muertos.svg", plot = diagrama_graves_muertos, device = "svg", width = 8.5, height = 5)
+#ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_graves_muertos.svg", plot = diagrama_graves_muertos, device = "svg", width = 8.5, height = 5)
 ```
 
 ```{r}
-ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_exceso_velocidad.svg", plot = diagrama_exceso_velocidad, device = "svg", width = 8.5, height = 5)
+#ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_exceso_velocidad.svg", plot = diagrama_exceso_velocidad, device = "svg", width = 8.5, height = 5)
 ```
 
 

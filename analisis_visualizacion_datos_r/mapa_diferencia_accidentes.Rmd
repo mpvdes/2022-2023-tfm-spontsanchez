@@ -33,15 +33,15 @@ Cargamos los datasets necesarios:
 
 En ambos casos hay que indicar la ruta donde se encuentran los datasets.
 ```{r}
-accidentes <- readr::read_csv('datasets_accidentes/datos_accidentes.csv')
-barris <- st_read('shapefiles_bcn/bcn_unitats_administratives/0301040100_Barris_UNITATS_ADM.shp')
-carrers_bcn <- st_read('shapefiles_bcn/bcn_carrers/BCN_GrafVial_Trams_ETRS89_SHP.shp')
-calles_30 <- st_read('shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
+accidentes <- readr::read_csv('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidentes/datos_accidentes.csv')
+barris <- st_read('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/shapefiles_bcn/bcn_unitats_administratives/0301040100_Barris_UNITATS_ADM.shp')
+carrers_bcn <- st_read('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/shapefiles_bcn/bcn_carrers/BCN_GrafVial_Trams_ETRS89_SHP.shp')
+calles_30 <- st_read('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
 ```
 
 Descomentar la línea de código para ver el dataframe 'accidentes':
 ```{r}
-# view(accidentes)
+#view(accidentes)
 ```
 
 En el dataframe `accidentes`, la columna `any` es de tipo `string`. Cambiamos el tipo de columna a numérica con la función `mutate` y la función `as.numeric`.
@@ -188,8 +188,9 @@ mapa_diferencia_accidentes
 ```
 
 ```{r}
-ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/mapa_diferencia_accidentes.svg", plot = mapa_diferencia_accidentes, device = "svg")
+#ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/mapa_diferencia_accidentes.svg", plot = mapa_diferencia_accidentes, device = "svg")
 ```
+
 
 ```{r}
 accidentes_dif[order(accidentes_dif$var),]

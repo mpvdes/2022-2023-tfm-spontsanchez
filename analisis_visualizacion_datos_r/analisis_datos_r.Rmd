@@ -23,7 +23,7 @@ setwd("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidente
 
 Cargo el dataset guardado en el archivo CSV 'datos_accidentes.csv':
 ```{r}
-accidentes <- read.csv("datos_accidentes.csv")
+accidentes <- read.csv("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidentes/datos_accidentes.csv")
 accidentes
 ```
 
@@ -191,6 +191,7 @@ accidentes_22 <- accidentes %>%
 
 accidentes_22
 ```
+
 ```{r}
 ((accidentes_22 - accidentes_19)/accidentes_19)*100
 ```

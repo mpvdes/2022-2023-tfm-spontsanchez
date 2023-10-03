@@ -28,8 +28,8 @@ setwd('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm')
 Leemos los dos dataframes que necesitamos. Ambos son archivos en formato '.csv'.
 En el caso del segundo dataframe, el que hemos nombrado 'calles_30', indicamos que la separación de columnas del CSV original se marca con ';'. Si no lo hiciéramos, se leerían todas las columnas en una sola columna.
 ```{r}
-accidentes <- read.csv('datasets_accidentes/datos_accidentes.csv')
-calles_30 <- read.csv('shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
+accidentes <- read.csv('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidentes/datos_accidentes.csv')
+calles_30 <- read.csv('C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/shapefiles_bcn/carrers_30_xarxa_primaria.csv', sep=';')
 ```
 
 Si queremos ver en una nueva ventanta los dataframes que hemos cargado, podemos usar la función view().
@@ -152,7 +152,7 @@ tabla_variacion_accidentes <- dif_accidentes %>%
 
 A continuación podemos visualizar la tabla:
 ```{r}
-# tabla_variacion_accidentes
+tabla_variacion_accidentes
 ```
 
 Si lo requerimos, exportamos la tabla en formato HTML con la función writeLines() del paquete knitr:
