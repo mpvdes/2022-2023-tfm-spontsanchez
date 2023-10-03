@@ -1,13 +1,22 @@
-# Análisis de los accidentes de tráfico en Barcelona
+# Trabajo de fin de máster Sergi Pont Sànchez - MPVD
 
-Este trabajo analiza la evolución de los accidentes de tráfico en Barcelona en el periodo 2015-2023.
+Este repositorio incluye todos los documentos relacionados con el trabajo de fin de máster de Sergi Pont Sànchez.
 
-El nuevo gobierno municipal del PSC está revirtiendo algunos de los cambios que aplicó el gobierno de Barcelona en Comú, liderado por Ada Colau, con el fin de pacificar las calles. Uno de los objetivos de la pacificación de las calles y la reducción de la velocidad era, precisamente, el de reducir los siniestros y la gravedad de las lesiones, por lo que el objetivo de este tranajo es analizar la evolución de los accidentes durante el mandato de Ada Colau: analizar si se ha reducido el volumen de accidentes y su gravedad, qué zonas son las que concentran más accidentes (y comprarlo con las zonas que se han pacificado) y comprobar si las causas de los accidentes se han mantenido o han cambiado, entre otras cosas. En definitiva, el objetivo es comprobar con datos en qué medida han sido efectivas las políticas de movilidad en relación al objetivo de reducir la siniestralidad.
+## Descripción del trabajo: Análisis de los accidentes de tráfico en Barcelona
 
-## Limpieza de datos
+Este trabajo analiza con datos la evolución de los accidentes de tráfico en Barcelona en el periodo 2015-2022.
 
-- En el documento de [limpieza de datos de los accidentes]('datasets_accidentes/limpieza_datos_accidentes.ipynb'), he unido las bases de datos de expedientes de accidentes en la ciudad de Barcelona. He modificado los dataframes para que todos tuvieran las mismas columnas y después concatenarlos en un solo dataframe.
+ Uno de los objetivos del gobierno del Ayuntamiento de Barcelona entre los años 2015 y 2023 fue el de reducir los accidentes de tráfico y su gravedad. Este trabajo analiza la evolución de los accidentes durante este período, prestando especial atención al efecto que ha tenido la reducción del límite de velocidad de 50 km/h a 30 km/h en 15 calles de la llamada red principal (vías con más de un carril en algún sentido de la marcha).
+ 
+ A continuación se enlazan los archivos y directorios principales del trabajo.
+ 
+## Archivos
 
-- En el segundo [limpieza de datos adicionales]('datasets_accidentes/limpieza_datos_adicionales.ipynb'), he obtenido información de otros datasets que son complementarios al primero y ofrecen otros datos sobre los mismos expedientes de accidentes. En este caso, he creado dataframes con solo dos columnas: el número de expediente y el dato adicional que me ofrece el dataframe.
+1. *Limpieza de datos*:
+- [limpieza de la base de datos de los accidentes de tráfico en Barcelona entre 2015 y 2022]('datasets_accidentes/limpieza_datos_accidentes.ipynb')
+
+2. *Análisis de datos*:
+-
+ - *Memoria del trabajo*:[memoria del trabajo]('memoria_tfm.md')
 
 ## Web
