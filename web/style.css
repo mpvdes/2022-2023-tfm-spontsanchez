@@ -26,7 +26,7 @@ body {
 
 .texto_barra_sup {
     font-family:serif;
-    font-size:28px;
+    font-size:0.8em;
     color:black;
 }
 
@@ -66,26 +66,26 @@ a:hover {
 .subtitulo {
     font-family:"Times New Roman", serif;
     color:black;
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin: 2rem auto 2rem auto;
-    max-width:800px;
+    max-width:80%;
     text-align:left;
 }
 
 .intro__hed {
     font-family:"Times New Roman", serif;
     color: #000000;
-    font-size: 2em;
+    font-size: 1.8em;
     margin: 2rem auto 1.5rem auto;
-    max-width: 800px;
+    max-width: 80%;
     text-align:left;
 }
 
 .intro__dek {
     color: black;
-    font-size: 25px;
+    font-size: 22px;
     text-align:justify;
-    max-width: 900px;
+    max-width: 100%;
     font-family:"Times New Roman", serif;
 }
 
@@ -97,7 +97,8 @@ a:hover {
 }
 
 .pie_foto{
-    color: #5A5A5A;
+    color: black;
+    background-color:white;
     font-size:1rem;
     text-align:left;
     font-family:serif;
@@ -149,4 +150,36 @@ a:hover {
         margin-top: 0;
         margin-left: 2rem;
     }
+}
+
+#outro {
+    height: 640px;
+}
+
+@media (min-width: 840px) {
+    .nav__examples {
+        margin-top: 0;
+        margin-left: 2rem;
+    }
+}
+
+#outro {
+    height: 640px;
+}
+
+@media (min-width: 840px) {
+    .nav__examples {
+        margin-top: 0;
+        margin-left: 2rem;
+    }
+}
+
+.img {
+    max-width: 100%; /* Ensures images don't exceed their container's width */
+    height: auto; /* Allows images to scale proportionally */
+}
+
+.lightable-material{
+    font-size:0.8em;
+    max-width:100%;
 }

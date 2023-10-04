@@ -31,7 +31,7 @@
 
             <!-- Barra superior de la página -->
             <div class="barra_sup">
-                <div style="width: 50%; float: left;">
+                <div style="width: 50%; float: left; align-items: center;">
                     <!-- Contenido del div izquierdo -->
                     <p class="texto_barra_sup" style="text-align:left; margin:10px;">MPVD - Trabajo de fin de máster</p>
                 </div>
@@ -88,28 +88,21 @@
 
             <!-- Inicio de la sección de scrollama -->
 		        <section id="scrolly">
+                <figure>
+                    <p>
+                    </p>
+			          </figure>
 			          <article>
-
-                    <!-- Cada div tiene asociada la clase "step", un "data-step" y un "data-image", la imagen que aparece cuando se activa cada paso del scroll. Las imágenes tienen formato svg y están almacenadas en el directorio img -->
-
-                    <!-- Primer step -->
 				            <div class="step" data-step="1" data-image="img/diagrama_accidentes.svg">
 					              <p>Entre 2015 y 2022 el número de accidentes de tráfico ha disminuido un 20,2%, aunque la reducción se concentra en los últimos tres años: entre 2019 y 2022, cuando los accidentes han caído un 20,3%. Si bien es cierto que 2020 y, en menor medida, 2021 son años distorsionados por las restricciones de movilidad por el Covid-19, la reducción de la siniestralidad se mantiene en 2022, año que se ha comparado con 2019. Los datos reflejan que todos los meses entre 2015 y 2019 (excepto agosto), el número de accidentes se ha mantenido por encima de los 750, mientras que en 2022, solo se ha superado dicha cifra en los meses de mayo y noviembre.</p>
 				            </div>
-
-                    <!-- Segundo step -->
 				            <div class="step" data-step="2" data-image="img/diagrama_graves_muertos_2.svg">
 					              <p>En cuanto a la gravedad de los accidentes, también se observa una clara tendencia a la baja. El año 2022, la suma entre heridos graves y muertos en accidente de tráfico no alcanzó los 200, una cifra que se superó con holgura todos los años entre 2015 y 2019. Si hablamos de muertes, en cambio, las cifras no muestran un patrón claro y no mantienen correlación con la gravedad de los accidentes. De hecho, 2022 fue, con 24, el año más muertos en la carretera desde 2016, a pesar de haberse registrado significativamente menos accidentes y menos graves que en 2017, 2018 y 2019.</p>
 				            </div>
-
-                    <!-- Tercer step -->
 				            <div class="step" data-step="3" data-image="img/diagrama_exceso_velocidad.svg">
 					              <p>Al analizar los accidentes causados por exceso de velocidad de alguno de los vehículos implicados, queda claro que la tendencia es también a la baja. En el periodo observado, 2015 es el año con más accidentes por exceso de velocidad -81- mientras que 2022 es el que registra menos accidentes de este tipo con tan solo 35, menos de la mitad que siete años antes. La tendencia se observa tanto en términos absolutos como en términos relativos, <b>en 2015 el exceso de velocidad era el causante de 1 de cada 123 accidentes, mientras que en 2022, fue el desencadenante de 1 de cada 228 accidentes</b>.</p>
 				            </div>
 			          </article>
-                <figure>
-				            <!-- <p>0</p> -->
-			          </figure>
 		        </section>
 
             <!-- Inicio de la sección "outro", de salida del scroll -->
@@ -136,8 +129,8 @@
                         <thead>
                             <tr>
                                 <th style="text-align:left;"> Calle </th>
-                                <th style="text-align:right;"> Accidentes 2019 </th>
-                                <th style="text-align:right;"> Accidentes 2022 </th>
+                                <th style="text-align:right;"> Accid. 2019 </th>
+                                <th style="text-align:right;"> Accid. 2022 </th>
                                 <th style="text-align:right;"> Variación (%) </th>
                             </tr>
                         </thead>
@@ -246,7 +239,7 @@
                 <br>
 
                 <!-- Imagen almacenada en el directorio img con texto alternativo alt -->
-                <img src="img/mapa_diferencia_accidentes.svg" alt="Mapa diferencia accidentes">
+                <img src="img/mapa_diferencia_accidentes.svg" alt="Mapa diferencia accidentes" class="img">
                 <br>
                 <p class="intro__dek">Los datos también muestran que solo han incrementado los accidentes en un barrio -Sant Gervasi-la Bonanova- afectado por la limitación a 30 km/h en calles principales. El incremento en este caso ha sido irrisorio, de 201 accidentes en 2019 a 207 en 2022.</p>
                 </div>
@@ -255,7 +248,7 @@
                 <h4 class="ladillo">Los curces del Eixample, la asignatura pendiente</h4>
                 <br>
                 <p class="intro__dek">A pesar de la drástica reducción de los accidentes en toda la ciudad, hay zonas que siguen concentrando un gran volumen de colisiones. En 2022, el distrito del Eixample es el que ha registrado más accidentes, muchos de los cuales se han producido en la calle Aragón, que ha sumado 217 accidentes en un año, y la Gran Via de les Corts Catalanes, que ha acumulado 456.</p>
-                <img src="img/mapa_calor_bcn_2.png">
+                <img src="img/mapa_calor_bcn_2.png" class="img">
                 <p class="intro__dek">Especialmente conflictivos son los cruces de las calles ubicadas entre Muntaner y Roger de Llúria, como por ejemplo el cruce entre las calles Aragó y Balmes, que ha sumado cinco accidentes en un año.</p>
                 </div>
                 <br>

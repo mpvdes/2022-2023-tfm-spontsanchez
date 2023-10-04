@@ -15,7 +15,7 @@ function handleResize() {
 		var stepH = Math.floor(window.innerHeight * 0.85);
 		step.style("height", stepH + "px");
 
-		var figureHeight = window.innerHeight / 1.25;
+		var figureHeight = window.innerHeight / 0.5;
 		var figureMarginTop = (window.innerHeight - figureHeight) / 2;
 
 		figure
