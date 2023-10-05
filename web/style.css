@@ -183,3 +183,12 @@ a:hover {
     font-size:0.8em;
     max-width:100%;
 }
+
+.caja_fuentes {
+    color: black;
+    background-color:#ececec;
+    font-size: 22px;
+    text-align:justify;
+    max-width: 100%;
+    font-family:"Times New Roman", serif;
+}
