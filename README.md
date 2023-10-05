@@ -23,5 +23,12 @@ A continuación se enlazan los archivos y directorios principales del trabajo.
 - [Creación de tabla comparativa]('analisis_visualizacion_datos_r/tabla_variacion_accidentes.Rmd)
 - [Creación de mapa de coropletas]('analisis_visualizacion_datos_r/mapa_diferencia_accidentes.Rmd)
 
+4. *Mapas QGIS*:
+- [Mapa de calor de los accidentes de tráfico en Barcelona](mapa_calor.qgz)
+- [Mapa de accidentes por calles](accidentes_calles.qgz)
+
+5. *HTML*:
+- []()
 
 ## Web
+- [Página web - Barcelona reduce un 20% los accidentes de tráfico y más de un 55% los causados por exceso de velocidad](https://mpvdes.github.io/2022-2023-tfm-spontsanchez/)

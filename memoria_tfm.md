@@ -7,16 +7,23 @@
 
 - Yolanda García Ruíz
 - Alejandro Zappala Delgado
+- Julián Pérez Romero
 
 ## Agradecimientos
 
+Gracias a todas las personas que me han ayudado a completar este trabajo de fin de máster y los módulos del curso.
+En primer lugar a Yolanda García, Alejandro Zappala, Julián Pérez y Adolfo Antón por su inestimable ayuda en diversas fases del trabajo.
+Gracias también a todos los profesores y las profesoras del máster por haber transmitido sus conocimientos y por estar siempre disponibles y accesibles.
+A las personas que han importido charlas y talleres, por aportar su experiencia y un enfoque práctico al periodismo de datos.
+Y por último a las compañeras y compañeros del máster, por el trayecto compartido durante el máster y por el apoyo durante el curso.
 
 ## Título del TFM
 
--  Análisis de los accidentes de tráfico en la ciudad de Barcelona
+Análisis de los accidentes de tráfico en la ciudad de Barcelona
 
 ## Resumen
 
+Este trabajo de fin de máster analiza la evolución de los accidentes de tráfico en la ciudad de Barcelona, entre 2015 y 2022, prestando especial atención a los accidentes causados por exceso de velocidad. También se analiza la efectividad de la reducción de la velocidad máxima en 15 vías principales en la reducción de los accidentes y en la gravedad de las lesiones.
 
 ## Introducción: motivación, objetivos y metodología
 
