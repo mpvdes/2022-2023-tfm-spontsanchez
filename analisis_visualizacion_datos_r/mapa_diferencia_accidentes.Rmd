@@ -1,4 +1,5 @@
 ---
+title: "mapa_diferencia_accidentes"
 author: "Sergi Pont"
 output: html_document
 ---
@@ -157,6 +158,14 @@ barrios_etiquetas <- barris[barris$NOM %in% c("la Dreta de l'Eixample", "el Camp
 ```
 
 
+Para representar el mapa de coropletas, uso el paquete ggplot, aportando como fuente de datos el dataframe `barris`.
+
+- Con la función `geom_sf()`, indico la variable que quiero representar en el mapa.
+- Con `scale_fill_gradient2()`, indico que quiero representar el mapa de coropletas con una escala de color gradual, en la que el punto mínimo se representen en verde, el punto medio en blanco y el punto más alto en rojo. El punto medio se marca con `midpoint` en el valor 0.
+- Con la función `geom_sf()` indico que quiero representar las calles principales con velocidad límite 30, almacenadas en el dataframe `carrers_30_bcn`, en colo negro.
+- Con la función `geom_sf_label()` indico que quiero etiquetas los barrios guardados en el dataframe `barrios_etiquetas`. Con `aes(label)` indico el texto de las etiquetas, que contendrá la variables `var` del dataframe `barrios_etiquetas`. `fill` indica el color de la etiqueta, `alpha` el nivel de transparencia, `size` el tamaño de letra y `label.size` el tamaño de la etiqueta en relación al texto.
+- Con la función `labs(title)` indico el título que aparecerá en la cabecera del mapa de coropletas.
+
 ```{r}
 mapa_diferencia_accidentes <- ggplot(data=barris) +
   
@@ -183,15 +192,17 @@ mapa_diferencia_accidentes <- ggplot(data=barris) +
     title = "Evolución del número de accidentes por barrios (2019-2022)")
 ```
 
+Visualización del mapa de coropletas.
 ```{r, fig.width=10}
 mapa_diferencia_accidentes
 ```
 
+Con la función `ggsave` guardo el mapa. Para guardarlo en el directorio indicado, hay que descomentar la línea de código.
 ```{r}
 #ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/mapa_diferencia_accidentes.svg", plot = mapa_diferencia_accidentes, device = "svg")
 ```
 
-
+Para ordenar los barrios en función de la variación porcentual de accidentes dentre 2019 y 2022, aplico la función `order()` a la columna `var` de `accidentes_dif`
 ```{r}
 accidentes_dif[order(accidentes_dif$var),]
 ```

@@ -1,14 +1,13 @@
 ---
-title: "Análisis datos accidentes"
+title: "analisis_datos_r"
 author: "Sergi Pont"
-date: "2023-08-27"
 output: html_document
 ---
 
 #Análisis de los datos de accidentes
 ##Datos de accidentes de tráfico en Barcelona, entre 2015 y 2022
 
-En este documento voy a analizar la base de datos sobre accidentes de tráfico en Barcelona entre 2015 y 2022 para observar la evolución durante estos ocho años y encontrar patrones que se repitan.
+En este documento voy a analizar la base de datos sobre accidentes de tráfico en Barcelona entre 2015 y 2022 para observar la evolución durante estos ocho años y encontrar patrones o datos que puedan ser de interés para el artículo.
 
 En primer lugar, cargo las librerías necesarias para poder trabajar con los datos:
 ```{r}
@@ -18,7 +17,7 @@ library(ggplot2)
 
 A continuación, indico el directorio en el que voy a trabajar:
 ```{r}
-setwd("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/datasets_accidentes")
+setwd("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm")
 ```
 
 Cargo el dataset guardado en el archivo CSV 'datos_accidentes.csv':
@@ -27,7 +26,7 @@ accidentes <- read.csv("C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/d
 accidentes
 ```
 
-Analizo la evolución temporal de los accidentes de tráfico. Se ve que se reducieron mucho durante la pandemia, pero que después se ha mantenido mucho el descenso respecto los años anteriores.
+Analizo la evolución temporal de los accidentes de tráfico. Se ve que se redujeron mucho durante la pandemia, pero que después se ha mantenido el descenso respecto los años anteriores.
 ```{r}
 accidentes$data <- as.Date(accidentes$data)
 datos_histograma <- cut(accidentes$data, breaks = seq(min(accidentes$data), max(accidentes$data) + 50, by = "50 days"))
@@ -38,63 +37,54 @@ ggplot(histogram_df, aes(x = Interval, y = Count)) +
   labs(x = "Date Interval (50 days)", y = "Number of Accidents") +
   ggtitle("Evolution of Accidents Over 50-Day Intervals")
 ```
-Los accidentes por alcoholemia se producen sobre todo por la noche.
+Calculamos los accidentes por año.
+Con el paquete dplyr, usamos la función group_by para agrupar los accidentes por la columna 'any' y después creamos una columna 'accident_count' con la suma de los accidentes por cada año.
 ```{r}
-alcoholemia <- accidentes %>%
-  filter(c_alcoholemia>0)
-
-ggplot(alcoholemia, aes(x = torn)) +
-  geom_bar() +
-  labs(
-    title = "Accidentes por alcoholemia por cada turno",
-    x = "Turno",
-    y = "Número de accidenetes"
-  )
-```
-```{r}
-alcoholemia <- accidentes %>%
-  filter(c_alcoholemia>0)
-
-ggplot(alcoholemia, aes(x = hora)) +
-  geom_bar() +
-  labs(
-    title = "Accidentes con positivo por alcoholemia por horas",
-    x = "Hora",
-    y = "Accidentes"
-  )
-```
-
-Tabla de accidentes con muertos por año. En 2020 y 2021 se han reducido el número de muertos, pero en 2022 se ha vuelto a niveles de antes de la pandemia. De todos modos, son cifras bajas, por lo que no tienen gran representatividad estadística.
-```{r}
-muertes <- accidentes %>%
+accidentes_año <- accidentes %>%
   group_by(any) %>%
-  summarise(total = sum(morts))
+  summarize(accident_count=n())
 
-muertes
+accidentes_año
 ```
 
-
-Tabla de accidentes graves por año. Después de la pandemia se han reducido y se ha mantenido la reducción.
+Mediante el filtro anterior, podemos calcular los accidentes de 2015 y 2022 y después calcular la diferencia porcentual.
 ```{r}
-graves <- accidentes %>%
+accidentes_15 <- accidentes %>%
+  filter(any==2015) %>%
+  summarize(accident_count=n())
+
+accidentes_22 <- accidentes %>%
+  filter(any==2022) %>%
+  summarize(accident_count=n())
+
+((accidentes_22$accident_count - accidentes_15$accident_count)/accidentes_15$accident_count)*100
+```
+
+Ahora calculamos la diferencia de accidentes causados por exceso de velocidad.
+
+Con el paquete dplyr, usamos la función filter para filtrar los accidentes causados por exceso de velocidad (la columna c_exces_velocitat = 1) y  group_by para agrupar los accidentes por la columna 'any' y después creamos una columna 'acident_count' con la suma de los accidentes por cada año.
+
+```{r}
+accidentes_exceso_velocidad <- accidentes %>%
+  filter(c_exces_velocitat==1) %>%
   group_by(any) %>%
-  summarise(total = sum(greus))
+  summarize(total_exceso_velocidad=n())
 
-graves
+accidentes_exceso_velocidad
 ```
 
 ```{r}
-ggplot(accidentes, aes(x = factor(torn), y = morts)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(x = "Turno", y = "Número de muertes",
-       title = "Número de muertes por accidente por cada turno")
-```
-Calculo cuantos accidentes se han producido por exceso de velocidad por año.
-```{r}
-velocidad <- accidentes %>%
-  group_by(any) %>%
-  summarise(total = sum(c_exces_velocitat))
-velocidad
+accidentes_vel_15 <- accidentes %>%
+  filter(c_exces_velocitat==1) %>%
+  filter(any==2015) %>%
+  summarize(total_exceso_velocidad=n())
+
+accidentes_vel_22 <- accidentes %>%
+  filter(c_exces_velocitat==1) %>%
+  filter(any==2022) %>%
+  summarize(total_exceso_velocidad=n())
+
+((accidentes_vel_22$total_exceso_velocidad - accidentes_vel_15$total_exceso_velocidad)/accidentes_vel_15$total_exceso_velocidad)*100
 ```
 
 Calculo cuántas muertes se han producido por exceso de velocidad por año.
@@ -117,83 +107,23 @@ graves_velocidad <- accidentes %>%
 graves_velocidad
 ```
 
-```{r}
-leves_velocidad <- accidentes %>%
-  filter(c_exces_velocitat>0) %>%
-  group_by(any) %>%
-  summarise(total = sum(lleus))
+También quiero calcular qué proporción de accidentes han representado los accidentes causados por exceso de velocidad sobre el total de accidentes del año para cada uno de los años.
 
-leves_velocidad
-```
-
+Uso las dos tablas que ya he calculado anteriormente: 'accidentes_año' y 'accidentes_exceso_velocidad'
 
 ```{r}
-utm_data <- data.frame(
-  easting = accidentes$UTM_X,
-  northing = accidentes$UTM_Y
-)
+accidentes_exceso_velocidad$proporcion <- (accidentes_exceso_velocidad$total_exceso_velocidad/accidentes_año$accident_count)
 
-filtered_utm_data <- utm_data[(utm_data$easting>10) & !is.na(utm_data$northing>10), ]
-value = c(10000, 15000, 20000)
-
-ggplot(filtered_utm_data, aes(x = easting, y = northing, fill=value)) +
-  geom_tile() +  # Use 'x' values to determine heatmap colors
-  scale_fill_gradient(low = "white", high = "blue") +  # Define color gradient
-  labs(x = "UTM Easting (X)", y = "UTM Northing (Y)") +
-  ggtitle("Heatmap of UTM Data (Excluding NaN)")
+accidentes_exceso_velocidad
 ```
+
+La tabla resultante nos permite observar una tendencia a la baja en la proporción que representan los accidentes por exceso de velocidad sobre el total de accidentes. Finalmente calculo cada cuántos accidentes de tráfico se produce un accidente por exceso de velocidad. Para ello, hay que dividir 1/proporción.
 
 ```{r}
-muertos <- accidentes[accidentes$morts==1, ]
+accidentes_exceso_velocidad$rev_proporcion <- 1/accidentes_exceso_velocidad$proporcion
 
-filtered_utm_data <- muertos[(utm_data$easting>10) & !is.na(utm_data$northing>10), ]
-
-filtered_utm_data
+accidentes_exceso_velocidad
 ```
 
-```{r}
-# Create a sample data frame with UTM coordinates
-utm_data <- data.frame(
-  easting = muertos$UTM_X,
-  northing = muertos$UTM_Y
-)
-
-# Create a scatter plot using ggplot2
-ggplot(utm_data, aes(x = easting, y = northing)) +
-  geom_point() +
-  labs(x = "Easting", y = "Northing", title = "UTM Coordinates Scatter Plot")
-```
-
-```{r}
-utm_data_2 <- data.frame(
-  easting = accidentes$UTM_X,
-  northing = accidentes$UTM_Y
-)
-
-# Create a scatter plot using ggplot2
-ggplot(utm_data_2, aes(x = easting, y = northing)) +
-  geom_point() +
-  labs(x = "Easting", y = "Northing", title = "UTM Coordinates Scatter Plot")
-```
-
-```{r}
-library(sf)
-```
-
-```{r}
-accidentes_19 <- accidentes %>%
-  filter(any==2019) %>%
-  summarize(Numero_de_Accidentes = n())
-
-accidentes_22 <- accidentes %>%
-  filter(any==2022) %>%
-  summarize(Numero_de_Accidentes = n())
-
-accidentes_22
-```
-
-```{r}
-((accidentes_22 - accidentes_19)/accidentes_19)*100
-```
-
+La tabla resultante indica que en 2015 1 de cada 123 accidentes tenían como causa el exceso de velocidad. En 2022, fueron 1 de cada 228.
 

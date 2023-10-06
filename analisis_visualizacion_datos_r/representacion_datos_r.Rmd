@@ -1,7 +1,6 @@
 ---
 title: "representacion_datos_r"
 author: "Sergi Pont"
-date: "2023-09-12"
 output: html_document
 ---
 
@@ -232,71 +231,5 @@ Con la función de ggplot2 ggsave(), exporto el gráfico. Indico la ruta complet
 
 ```{r}
 #ggsave(filename = "C:/Users/Sergi/Documents/mpvd/uah2223-spontsanchez/tfm/web/img/diagrama_exceso_velocidad.svg", plot = diagrama_exceso_velocidad, device = "svg", width = 8.5, height = 5)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Otras pruebas que he hecho
-
-Aquí creo un bar chart amb el total de ferits en accidents de trànsit, separant-los entre lleus, greus i morts.
-```{r}
-interactive_plot <- ggplotly(grafico)
-
-interactive_plot
-```
-
-
-```{r}
-fig <- plot_ly(accidentes, x = ~any, y = ~greus, type = 'bar', name = 'Last Year') %>%
-  add_trace(data , x = ~any, y = ~morts, type = 'scatter',  mode = 'lines', name = 'This year')
-
-fig <- fig %>% layout(yaxis = list(title = "Amount"))
-fig <- fig %>% layout(legend=list(title=list(text='<b> Time Period </b>')))
-fig
-```
-
-
-Primero vamos a observar la evolcuión de los accidentes de tráfico y de su gravedad por año.
-```{r}
-qplot(any, data=accidentes, geom='bar')
-```
-
-
-```{r}
-counts <- accidentes %>%
-  group_by(any) %>%
-  summarise(Count = n())
-
-graves <- accidentes %>%
-  group_by(any) %>%
-  summarise(Count = sum(greus))
-
-bar_chart <- plot_ly(counts, x = ~any, y = ~Count, type = 'bar', name = 'Heridos',
-                     text = ~paste("Personas implicadas:", Count),
-                      marker = list(color = 'rgb(158,202,225)',
-                      line = list(color = 'rgb(8,48,107)',
-                                  width = 1.5)))%>%
-   add_trace(counts, x = ~any, y = ~graves, type = 'scatter',  mode = 'lines', name = 'Graves')%>%
-
-  layout(title = list(text = "Personas implicadas en accidentes cada año",
-                 font = list(family = "Arial", size = 20, color = "blue")),
-         xaxis = list(title = "Año", font = list(family = "Arial", size = 14)),
-         yaxis = list(title = "Accidentados", font = list(family = "Arial", size = 14)),
-         hovertemplate="Accidentados: %{y}",
-         showlegend=TRUE,
-         plot_bgcolor='gray',
-         paper_bgcolor='gray')
-
-bar_chart
 ```
 
