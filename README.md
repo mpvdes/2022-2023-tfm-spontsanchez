@@ -11,7 +11,8 @@ A continuación se enlazan los archivos y directorios del repositorio:
  
 ## Archivos
 
-1. *Memoria del trabajo*:[memoria del trabajo]('memoria_tfm.md')
+1. *Memoria del trabajo*:
+- [Memoria del trabajo]('memoria_tfm.md')
 
 2. *Bases de datos originales*:
 - [Bases de datos descargadas del Catálogo Open Data Barcelona](datasets_accidentes)

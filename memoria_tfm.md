@@ -42,7 +42,7 @@ Para realizar el trabajo, he obtenido las bases de datos en el [web de datos abi
 
 ## Estado de la cuestión: trabajos relacionados
 
-Trabajos anteriores relacionados con esta cuestión:
+Trabajos y artículos anteriores relacionados con el tema de este trabajo:
 
 - Betevé publicó un análisis sobre la evolución de la mortalidad por accidentes de tráfico en Barcelona [Accidents mortals a Barcelona: on i quan s’han produït](https://beteve.cat/mobilitat/victimes-mortals-accident-transit-barcelona/)
 - Nació Digital publicó un artículo sobre la mortalidad en accidente de tráfico de los motoristas: [Deu de cada onze morts en accidents de trànsit a Barcelona anaven en moto](https://www.naciodigital.cat/noticia/236790/deu-onze-morts-accidents-barcelona-moto)
@@ -50,12 +50,29 @@ Trabajos anteriores relacionados con esta cuestión:
 
 ## Tecnologías y herramientas utilizadas
 
-### Python - Jupyter
-1. Pandas
+#### Python - Jupyter
+Para la limpieza de datos he utilizados las librerías:
+- Pandas
+- Numpy
 
-### R - R Studio
+#### R - R Studio
+Para el análisis y la representación de datos he utilizado los paquetes:
+- Dplyr
+- GGplot2
+- SF
+- SP
+- Plotly
+- KableExtra
+- Knitr
 
-### HTML - Emacs
+#### QGIS
+Para crear un mapa de calor he utilizado el programa de visualización de código libre QGIS.
+
+#### HTML, CSS y Javascript - Emacs
+Para el diseño de la web he utilizado HTML, para las hojas de estilo, CSS, y para la parte de scroll, el lenguaje JavaScript.
+
+#### Markdown
+Para los documentos complementarios, como la memoria o el Readme, he utilizado el lenguaje de marcado Markdown.
 
 ## Fuentes de datos
 Los datos utilizados para este trabajo se han descargado del [portal de datos abiertos del Ayuntamiento de Barcelona](https://opendata-ajuntament.barcelona.cat/es).
