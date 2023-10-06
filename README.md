@@ -7,11 +7,17 @@ Este repositorio incluye todos los documentos relacionados con el trabajo de fin
 Este trabajo analiza con datos la evolución de los accidentes de tráfico en Barcelona en el periodo 2015-2022.
 Uno de los objetivos del gobierno del Ayuntamiento de Barcelona entre los años 2015 y 2023 fue el de reducir los accidentes de tráfico y su gravedad. Este trabajo analiza la evolución de los accidentes durante el periodo 2015-2022 (el último año del que se tienen datos), prestando especial atención al efecto que ha tenido la reducción del límite de velocidad de 50 km/h a 30 km/h en 15 calles de la llamada red principal (vías con más de un carril en algún sentido de la marcha).
  
-A continuación se enlazan los archivos y directorios principales del trabajo.
+A continuación se enlazan los archivos y directorios del repositorio:
  
 ## Archivos
 
 1. *Memoria del trabajo*:[memoria del trabajo]('memoria_tfm.md')
+
+2. *Bases de datos originales*:
+- [Bases de datos descargadas del Catálogo Open Data Barcelona](datasets_accidentes)
+
+3. *Shapefiles*:
+- [Archvios de representación geográfica de Barcelona](shapefiles_bcn)
 
 2. *Limpieza de datos*:
 - [limpieza de la base de datos de los accidentes de tráfico en Barcelona entre 2015 y 2022]('datasets_accidentes/limpieza_datos_accidentes.ipynb')
@@ -27,8 +33,13 @@ A continuación se enlazan los archivos y directorios principales del trabajo.
 - [Mapa de calor de los accidentes de tráfico en Barcelona](mapa_calor.qgz)
 - [Mapa de accidentes por calles](accidentes_calles.qgz)
 
-5. *HTML*:
-- []()
+5. *Web*:
+- [Index.html](docs/index.html)
+- [Hoja de estilos style](docs/style.css)
+- [Hoja de estilos custom](docs/custom.css)
+- [Javascript script.js](docs/script.js)
+- [Javascript scrollama.min.js](docs/scrollama.min.js)
+- [Imágenes](img) 
 
 ## Web
 - [Página web - Barcelona reduce un 20% los accidentes de tráfico y más de un 55% los causados por exceso de velocidad](https://mpvdes.github.io/2022-2023-tfm-spontsanchez/)
