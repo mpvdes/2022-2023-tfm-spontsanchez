@@ -14,13 +14,15 @@
 		figure {
 			position: -webkit-sticky;
 			position: sticky;
-			width: 100%;
+      width:100%;
 			margin:0 auto;
 			-webkit-transform: translate3d(0, 0, 0);
 			-moz-transform: translate3d(0, 0, 0);
 			transform: translate3d(0, 0, 0);
 			background-color: white;
 			z-index: 0;
+      max-width:992px;
+      background-size:100%;
 		}
 
     #scrolly figure {
