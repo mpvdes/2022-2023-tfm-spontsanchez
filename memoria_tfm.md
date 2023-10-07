@@ -141,14 +141,14 @@ La página web está publicada a través de GitHub Pages, indicando como fuente 
 - [Archvios de representación geográfica de Barcelona](shapefiles_bcn)
 
 2. *Limpieza de datos*:
-- [limpieza de la base de datos de los accidentes de tráfico en Barcelona entre 2015 y 2022]('datasets_accidentes/limpieza_datos_accidentes.ipynb')
-- [Base de datos]('datasets_accidentes/datos_accidentes.csv')
+- [Limpieza de la base de datos de los accidentes de tráfico en Barcelona entre 2015 y 2022](datasets_accidentes/limpieza_datos_accidentes.ipynb)
+- [Base de datos](datasets_accidentes/datos_accidentes.csv)
 
 3. *Análisis de datos*:
-- [Análisis de datos]('analisis_visualizacion_datos_r/analisis_datos_r.Rmd)
-- [Creación de gráficos de representación de datos]('analisis_visualizacion_datos_r/representacion_datos_r.Rmd)
-- [Creación de tabla comparativa]('analisis_visualizacion_datos_r/tabla_variacion_accidentes.Rmd)
-- [Creación de mapa de coropletas]('analisis_visualizacion_datos_r/mapa_diferencia_accidentes.Rmd)
+- [Análisis de datos](analisis_visualizacion_datos_r/analisis_datos_r.Rmd)
+- [Creación de gráficos de representación de datos](analisis_visualizacion_datos_r/representacion_datos_r.Rmd)
+- [Creación de tabla comparativa](analisis_visualizacion_datos_r/tabla_variacion_accidentes.Rmd)
+- [Creación de mapa de coropletas](analisis_visualizacion_datos_r/mapa_diferencia_accidentes.Rmd)
 
 4. *Mapas QGIS*:
 - [Mapa de calor de los accidentes de tráfico en Barcelona en 2022](mapas_qgis/mapa_calor.qgz)
