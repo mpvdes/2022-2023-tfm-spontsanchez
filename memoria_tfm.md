@@ -5,9 +5,9 @@
 
 ## Tutores
 
-- Yolanda García Ruíz
-- Alejandro Zappala Delgado
-- Julián Pérez Romero
+- Yolanda García Ruíz (sesión de tutoría el 28/08/23)
+- Alejandro Zappala Delgado (sesiones de tutoría el 07/09/23 y el 19/09/23)
+- Julián Pérez Romero (sesión de tutoría el 05/09/23)
 
 ## Agradecimientos
 
@@ -27,18 +27,11 @@ Este trabajo de fin de máster analiza la evolución de los accidentes de tráfi
 
 ## Introducción: motivación, objetivos y metodología
 
-Este trabajo nace del debate político y social en la ciudad de Barcelona acerca de la reordenación de la movilidad. Una de las cuestiones que ha centrado los dos mandatos de la alcaldesa Ada Colau es la reducción del tráfico motorizado en la ciudad, así como la reducción de la velocidad. Para ello, el Ayuntamiento ha tomado una serie de medidas, entre las cuales destacan:
-- Limitar la entrada a la ciudad de vehículos altamente contaminantes
-- Ampliar las zonas peatonales en detrimento de las calles con prioridad para vehículos motorizados
-- Ampliar la red de carriles bici
-- Reducir a 30 km/h la velocidad máxima en calles secundarias
-- Instalar nuevos radares de velocidad
+Este trabajo nace del debate político y social en la ciudad de Barcelona acerca de la reordenación de la movilidad. Una de las cuestiones que ha centrado los dos mandatos de la alcaldesa Ada Colau es la reducción del tráfico motorizado en la ciudad, así como la reducción de la velocidad. Para ello, el Ayuntamiento ha tomado una serie de medidas, entre las que destaca la limitación de la velocidad máxima a 30 km/h en 15 vías de la denominada "red principal", ampliando la limitación aplicada por la DGT.
 
-Los objetivos de esta política han sido dos: por un lado, reducir la contaminación y, por otro lado, reducir la accidentalidad y la gravedad de las lesiones.
+Los objetivos de estas política han sido dos: por un lado, reducir la contaminación y, por otro lado, disminuir la accidentalidad y la gravedad de las lesiones. En este trabajo se analiza si se ha cumplido el objetivo de reducir los accidentes y si las 15 vías en las que se ha limitado la velocidad a 30 km/h también han registrado menos accidentes tras la entrada en vigor de la medida.
 
-Con el reciente cambio de gobierno en la ciudad, se ha planteado revertir algunos de estos cambios para recuperar espacio para el tráfico rodado. Ante este contexto, el objetivo del trabajo es analizar cómo ha evolucionado la siniestralidad en la ciudad de Barcelona entre los años 2015 y 2022. Aunque el mandato de Ada Colau duró hasta mayo de 2023, no hay datos disponibles sobre el año 2023 porque todavía no ha terminado. Por este motivo, el alcance del trabajo se limita al periodo entre 2015 y 2022, ambos incluídos.
-
-Para realizar el trabajo, he obtenido las bases de datos en el [web de datos abiertos del Ayuntamiento de Barcelona](https://opendata-ajuntament.barcelona.cat/es). Estos datos los he tratado con la librería Pandas de Python, para limpiar la base de datos y poder analizar los datos posteriormente. La base de datos resultante la he analizado y representado geográficamente con el lenguaje de programación R. El resultado de los análisis los he presentado a través de una página web creada con lenguaje HTML.
+Para realizar el trabajo, he obtenido las bases de datos en el [web de datos abiertos del Ayuntamiento de Barcelona](https://opendata-ajuntament.barcelona.cat/es). Estos datos los he tratado con la librería Pandas de Python, para limpiar la base de datos y poder analizar los datos posteriormente. La base de datos resultante la he analizado y representado geográficamente con el lenguaje de programación R. El resultado de los análisis lo he presentado a través de una página web creada con lenguaje HTML.
 
 ## Estado de la cuestión: trabajos relacionados
 
@@ -90,37 +83,83 @@ Se han utilizado los siguientes archivos de representación geográfica:
 
 ## Métodos y técnicas
 
-Finales de julio
-En primer lugar, decido qué tema voy a abordar en el trabajo de final de máster.
-En primer lugar, me decanto por trabajar con los datos de las elecciones generales del 23J.
-Antes de las elecciones, hago una simulación de limpieza de datos con el dataset de las elecciones anteriores, las de 2019. Mediante el paquete de Python Pandas, limpio los datos hasta obtener una tabla con los votos obtenidos por cada partido en cada una de las provincias, así como la población, el censo y el censo CERA.
+#### Elección del tema
+En primer lugar, opté por trabajar con los datos de las elecciones generales del 23J. Antes de las elecciones, llevé a cabo una simulación de limpieza de datos con el dataset de las elecciones anteriores, las de 2019. Mediante el paquete de Python Pandas, limpié los datos hasta obtener una tabla con los votos obtenidos por cada partido en cada una de las provincias, así como la población, el censo y el censo CERA.
+A pesar de haber empezado con este tema, no veía claro como enfocar el análisis, por el futuro político incierto y la posibilidad de unas nuevas elecciones que podían cambiar el foco de interés en cuestión de pocas semanas. Un análisis que era válido y relevante en julio podía perder la vigencia en septiembre u octubre, así que decidí cambiar de tema.
 
-aunque enseguida empiezo a experimentar problemas para obtener una tabla limpia con todos los datos que necesito para poder trabajar. Además, el hecho de que el horizonte político sea incierto, hace que no tenga claro cómo enfocar el análisis de los datos y qué conclusiones buscar.
-Entonces, empiezo a analizar otros datasets, como por ejemplo los que ofrecen datos sobre seguridad en la ciudad de Barcelona.
+Analicé otros datasets ofrecidos por webs de datos abiertos, como el portal de datos abiertos del Gobierno de España, el portal de datos abiertos de la Generalitat de Catalunya y el portal de datos abiertos del Ayuntamiento de Barcelona. En este último sitio web encontré diversos datasets que analizaban la evolución de los accidentes de tráfico en la ciudad de Barcelona y opté por dedicar el artículo a la evolución de los accidentes de tráfico en la ciudad de Barcelona. La pacificación de las calles y la reducción de la velocidad de los vehículos a motor ha sido una de las principales obras del gobierno municipal entre los años 2015 y 2023. Además, también ha sido una de las cuestiones que ha centrado la campaña electoral de las municipales de 2023 y, por ello, la pregunta que se pretende responder con este análisis de datos es si las medidas adoptadas por el gobierno de Ada Colau han sido efectivas para reducir los accidentes de tráfico.
 
-12/08
-Decido que mi artículo será sobre la evolución de los accidentes de tráfico en la ciudad de Barcelona. La pacificación de las calles y la reducción de la velocidad de los vehículos a motor ha sido uno de los principales caballos de batalla de la alcaldesa de Barcelona, Ada Colau, durante sus 8 años de mandato.
-También ha sido una de las cuestiones que ha centrado la campaña electoral de las municipales de 2023 y, por ello, la pregunta que se pretende responder con este análisis de datos es si las medidas adoptadas por el gobierno de Ada Colau han sido efectivas para reducir los accidentes de tráfico.
+#### Obtención de datos y limpieza de datos
+Tras analizar los datos con la herramienta de previsualización del portal de datos abiertos del Ayuntamiento de Barcelona, descargué los archivos en formato .csv y los guardé en el directorio [datasets_accidentes](datasets_accidentes). Cabe tener en cuenta que los archivos estaban divididos por años y por el tipo de información que aportaban, por lo que fue necesario realizar una tarea de unificación de los datasets y limpieza de datos.
 
-15/08
-He unido todos los datasets de accidentes en Barcelona entre los años 2015 y 2022. He realizado una limpieza de datos para que todos los datasets tuvieran el mismo formato y las mismas columnas y después los he unido en un solo dataset con todos los datos que considero relevantes.
-La limpieza de datos la he hecho con la librería Pandas de Python.
-El dataset que tengo ahora mismo incluye: el número de expediente de los accidentes gestionados por la Guàrdia Urbana, el momento en el que se han producido, el lugar exacto y la causa (si ha sido culpa de un peatón). También el número de víctimas y el grado de lesión (mortal, grave, leve).
-El Ayuntamiento de Barcelona ofrece también datasets en los que se indica la causa de los accidentes según un error en la conducción, la causa mediata (indirecta) i según los vehículos implicados en accidentes.
+Mediante un [cuaderno de Python](datasets_accidentes/limpieza_datos_accidentes.ipynb), unifiqué los datasets necesarios para el análisis de datos que quería llevar a cabo. uní el dataset tomando como campo de referencia el número de expediente, que es único para cada accidente y está incluído en todos los datasets. Uní todos los datasets de accidentes en Barcelona entre los años 2015 y 2022, y llevé a cabo una limpieza de datos con Python para que todos los datasets tuvieran el mismo formato y las mismas columnas. La base de datos resultante de la limpieza de datos, la guardé en un archivo csv [datos_accidentes.csv](datasets_accidentes/datos_accidentes.csv).
 
-También hay datos sobre las calles pacificadas en la ciudad de Barcelona, pero solo entre 2020 y 2022. (eixos verds de l’Eixample).
-También hay datos sobre las zonas 30 (calles donde la velocidad máxima es de 30 km/h), con serie histórica desde el año 2017.
+Paralelamente, también descargué archivos de datos espaciales para poder representar después los mapas de la ciudad a través de R. Los guardé en el directorio [shapefiles_bcn](shapefiles_bcn), que incluye la siguiente información geográfica:
+- [Calles de Barcelona](shapefiles_bcn/bcn_carrers)
+- [Fronteras de los distritos de Barcelona](shapefiles_bcn/bcn_fronteres_districtes)
+- [Fronteras de los distritos y los barrios de Barcelona](shapefiles_bcn/bcn_unitats_administratives)
+- [Calles con límite de velocidad a 30 km/h](shapefiles_bcn/carrers_30)
+- [Zonas con límite de velocidad a 30 km/h](shapefiles_bcn/zones_30)
 
-Limpieza de los datos:
+También cree con excel un archivo csv que contiene las vías principales con límite de velocidad a 30 km/h y lo almacené en el archivo [carrers_30_xarxa_primaria.csv](shapefiles_bcn/carrers_30_xarxa_primaria.csv)
 
-Sesión con Yolanda García (28/08): Me ayudó en la limpieza de los datos. En concreto para tratar filas que contenían valores NaN y que no permetían homogeneizar las columnas para que todas las cifras fueran enteros y así poderlas tratar más fácilmente.
+#### Análisis y representación de datos en R
+Con la base de datos resultante, analicé los datos y los representé mediante gráficos, tablas y mapas en archivos de R Markdown:
 
+- [Análisis de datos]('analisis_visualizacion_datos_r/analisis_datos_r.Rmd). El análisis de datos consistió en buscar patrones generales en los datos, centránsome en la evolución de los accidentes entre 2015 y 2022, así como en la evolución de los accidentes causados por exceso de velocidad y la gravedad de las lesiones provocadas por accidentes de tráfico. Cabe tener en cuenta que el periodo analizado comprende los años 2020 y 2021, en los que la movilidad se redujo como consecuencia de la pandemia de la Covid-19. Además los cambios en el límite de velocidad de las calles tuvieron lugar durante estos dos años. Por este motivo, algunos análisis comparan los años 2019 y 2022 en su conjunto, para evitar las distorsiones que pueden representar los años 2020 y 2021, afectados por las limitaciones en los desplazamientos mencionadas anteriormente.
 
-## Ejercicio de programación literaria, con el código incluido (50%)
+- [Creación de gráficos de representación de datos]('analisis_visualizacion_datos_r/representacion_datos_r.Rmd). Para la representación de datos que muestran la evolución temporal durante todo el periodo 2015-2022, he otpado por los gráficos de barras creados con el paquete Ggplot2. En el caso de la evolución total de los accidentes, lo he representado con un gráfico de barras agruapdas por meses. La evolución de la gravedad de las lesiones entre 2015 y 2022 la he representado con un gráfico de barras apiladas, en las que se comunican el número de muertos, lesionades graves y la suma de ambas cifras. Finalmente, la evolución de los accidentes causados por exceso de velocidad la he representado con un gráfico de barras agrupadas por años.
 
+- [Creación de tabla comparativa de los accidentes en las calles 30]('analisis_visualizacion_datos_r/tabla_variacion_accidentes.Rmd). Para comparar la eficacia de la limitación de velocidad a 30 km/h en vías principales, he comparado los años 2019 y 2022, para evitar las posibles distorsiones generadas por las medidas antiCovid-19. Creé una tabla en formato html, ordenando las calles de mayor a menor disminución porcentual de accidentes entre los años 2019 y 2022.
 
-## Resultados: producto obtenido (HTML, CSS, JS, Rmd, Python, ipynb, sh, etc.) con su descripción y enlace a repositorio git de Github con todo el contenido, incluido el código. (50%)
-- El repositorio git se hará dentro de mpvdes y el nombre será `2022-2023-tfm-%nombre-usuaria%`
+- [Creación de mapa de coropletas]('analisis_visualizacion_datos_r/mapa_diferencia_accidentes.Rmd). El mapa de coropletas tiene por objetivo analizar qué barrios han visto reducido el número de accidentes, también entre los años 2019 y 2022. En el mapa también se representan las calles 30, para poder ver en el mapa si los barrios por donde pasan estas 15 vías principales han reducido la cantidad de accidentes.
 
+#### Representación de datos geográficos con QGIS
+Para complementar la información aportada por el artículo, creé un mapa parar representar las zonas de la ciudad en las que en 2022 hubo más accidentes de tráfico. Para realizar esta representación geográfica me decanté por crear un mapa de calor (mapas_qgis/mapa_calor.qgz) con el software de código abierto QGIS, que permite generar un mapa de calor a partir de una capa de representación geográfica de puntos en los que se han producido los accidentes. El siguiente documento explica la [metodologia empleada para crear el mapa de calor en QGIS](mapas_qgis/metodologia_qgis.md).
+
+#### Edición de imágenes con Inkscape
+Mediante el programa Inkscape he creado una imagen compuesto por dos mapas de calor: uno con los accidentes en 2022 en toda la ciudad y otro centrado en la zona de l'Eixample, donde se concentra un mayor número de accidentes. El resultado lo exporté en un archivo png para reducir su tamaño y mejorar la experiencia de usuario en la web. También usé Inkscape para añadir elementos adicionales a los mapas, como la representación gráfica de la escala de los mapas y la representación gráfica de los puntos cardinales.
+
+#### Creación de la página web
+La página web está creada a partir de la plantilla de Scrollama [Sticky Overlay](https://github.com/russellsamora/scrollama/tree/main/docs/sticky-overlay). Esta plantilla está dividida en tres partes: una sección estática previa al scrolly, una sección central de scrolly y una sección estática de salida del scrolly.
+En la primera sección introduje el artículo, con el titular, el subtítulo, los párrafos iniciales y una imagen de apoyo. En la parte de scrolly incluí los gráficos de barras que muestran la evolució temporal de los accidentes, con textos de apoyo para ayudar a entender los gráficos. En la sección de salida, incluí la tabla de comparación de accidentes en las calles 30 y la representación geográfica con el mapa de coropletas creado con R y con los mapas de calor creados con QGIS.
+
+El principal reto de la parte scrolly fue garantizar la correcta visualización de todos los elementos, de manera que los bloques de texto dejaran suficiente espacio para visualizar los gráficos. Los gráficos ocupan el espacio máximo permitido por el tamaño de pantalla, de forma responsiva.
+
+#### Publicación de la web
+La página web está publicada a través de GitHub Pages, indicando como fuente la carpeta docs incluída en la rama main.
+
+## Resultados: producto obtenido (HTML, CSS, JS, Rmd, Python, ipynb, sh, etc.)
+
+1. *Memoria del trabajo*:
+- [Memoria del trabajo](memoria_tfm.md)
+
+2. *Bases de datos originales*:
+- [Bases de datos descargadas del Catálogo Open Data Barcelona](datasets_accidentes)
+
+3. *Shapefiles*:
+- [Archvios de representación geográfica de Barcelona](shapefiles_bcn)
+
+2. *Limpieza de datos*:
+- [limpieza de la base de datos de los accidentes de tráfico en Barcelona entre 2015 y 2022]('datasets_accidentes/limpieza_datos_accidentes.ipynb')
+- [Base de datos]('datasets_accidentes/datos_accidentes.csv')
+
+3. *Análisis de datos*:
+- [Análisis de datos]('analisis_visualizacion_datos_r/analisis_datos_r.Rmd)
+- [Creación de gráficos de representación de datos]('analisis_visualizacion_datos_r/representacion_datos_r.Rmd)
+- [Creación de tabla comparativa]('analisis_visualizacion_datos_r/tabla_variacion_accidentes.Rmd)
+- [Creación de mapa de coropletas]('analisis_visualizacion_datos_r/mapa_diferencia_accidentes.Rmd)
+
+4. *Mapas QGIS*:
+- [Mapa de calor de los accidentes de tráfico en Barcelona en 2022](mapas_qgis/mapa_calor.qgz)
+- [Metodologia QGIS](mapas_qgis/metodologia_qgis.md)
+
+5. *Web*:
+- [Index.html](docs/index.html)
+- [Hoja de estilos style](docs/style.css)
+- [Hoja de estilos custom](docs/custom.css)
+- [Javascript script.js](docs/script.js)
+- [Javascript scrollama.min.js](docs/scrollama.min.js)
+- [Imágenes](img) 
 
 ## Conclusiones
