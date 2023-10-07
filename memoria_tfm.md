@@ -19,7 +19,7 @@ Y por último a las compañeras y compañeros del máster, por el trayecto compa
 
 ## Título del TFM
 
-Análisis de los accidentes de tráfico en la ciudad de Barcelona
+Análisis de los accidentes de tráfico en la ciudad de Barcelona - El modelo 'ciudad 30' reduce los accidentes de tráfico en Barcelona en un 20% desde 2015
 
 ## Resumen
 

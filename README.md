@@ -43,4 +43,4 @@ A continuación se enlazan los archivos y directorios del repositorio:
 - [Imágenes](img)
 
 ## Web
-- [Página web - Barcelona reduce un 20% los accidentes de tráfico y más de un 55% los causados por exceso de velocidad](https://mpvdes.github.io/2022-2023-tfm-spontsanchez/)
+- [Página web - El modelo 'ciudad 30' reduce los accidentes de tráfico en Barcelona en un 20% desde 2015](https://mpvdes.github.io/2022-2023-tfm-spontsanchez/)
