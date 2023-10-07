@@ -21,8 +21,6 @@
 			transform: translate3d(0, 0, 0);
 			background-color: white;
 			z-index: 0;
-      max-width:992px;
-      background-size:100%;
 		}
 
     #scrolly figure {
@@ -30,7 +28,8 @@
         background-position:center;
         background-image:url("img/diagrama_accidentes.svg");
         margin-top:-3rem;
-        max-width:90%;
+        max-width:992px;
+        background-size:100%;
     }
 
 		figure p {
