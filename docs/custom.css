@@ -1,70 +1,81 @@
+
+/* El documento de css custom.css establece los estilos para los elementos de scrollama */
+
+/* Establece los estilos para los elementos con el ID scrolly*/
 #scrolly {
-			position: relative;
-			background-color:white;
-			padding: 1rem;
+		position: relative; /*posición del elemento como relativa con respecto a su posición normal en el flujo del documento*/
+		background-color:white; /*Establece el color de fondo del elemento como blanco*/
+		padding: 1rem;/*Agrega relleno de 1 rem alrededor del contenido del elemento*/
 		}
 
-		article {
-			position: relative;
-			padding: 0;
-			max-width: 40rem;
-			margin: 0 auto;
-		}
+/* Estilos para elementos "article" */
+article {
+    position: relative; /* Establece la posición como relativa */
+    padding: 0; /* Elimina el relleno */
+    max-width: 40rem; /* Ancho máximo de 40 rem */
+    margin: 0 auto; /* Centra horizontalmente */
+}
 
-		figure {
-			position: -webkit-sticky;
-			position: sticky;
-      width:100%;
-			margin:0 auto;
-			-webkit-transform: translate3d(0, 0, 0);
-			-moz-transform: translate3d(0, 0, 0);
-			transform: translate3d(0, 0, 0);
-			background-color: white;
-			z-index: 0;
-		}
+/* Estilos para elementos "figure" */
+figure {
+    position: -webkit-sticky; /* Para navegadores WebKit */
+    position: sticky; /* Establece como elemento sticky */
+    width: 100%; /* Ancho al 100% */
+    margin: 0 auto; /* Centra horizontalmente */
+    -webkit-transform: translate3d(0, 0, 0); /* Transformación 3D (propiedad para algunos efectos) */
+    -moz-transform: translate3d(0, 0, 0); /* Transformación 3D (propiedad para algunos efectos) */
+    transform: translate3d(0, 0, 0); /* Transformación 3D (propiedad para algunos efectos) */
+    background-color: white; /* Fondo blanco */
+    z-index: 0; /* Índice z en 0 (posición en la superposición) */
+}
 
-    #scrolly figure {
-        background-repeat:no-repeat;
-        background-position:center;
-        background-image:url("img/diagrama_accidentes.svg");
-        margin-top:-3rem;
-        max-width:992px;
-        background-size:100%;
-    }
+/* Estilos específicos para "figure" dentro de "#scrolly" */
+#scrolly figure {
+    background-repeat: no-repeat; /* Evita la repetición de fondo */
+    background-position: center; /* Posición de fondo en el centro */
+    background-image: url("img/diagrama_accidentes.svg"); /* Imagen de fondo */
+    margin-top: -3rem; /* Desplazamiento hacia arriba */
+    max-width: 992px; /* Ancho máximo de 992px */
+    background-size: 100%; /* Escala de fondo al 100% */
+}
 
-		figure p {
-			text-align: center;
-			padding: 1rem;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			-moz-transform: translate(-50%, -50%);
-			-webkit-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-			font-size: 8rem;
-			font-weight: 900;
-			color: #fff;
-		}
+figure p {
+    text-align: center; /* Texto centrado horizontalmente */
+    padding: 1rem; /* Relleno de 1rem */
+    position: absolute; /* Posición absoluta */
+    top: 50%; /* Arriba al 50% del contenedor */
+    left: 50%; /* Izquierda al 50% del contenedor */
+    -moz-transform: translate(-50%, -50%); /* Transformación para centrar */
+    -webkit-transform: translate(-50%, -50%); /* Transformación para centrar */
+    transform: translate(-50%, -50%); /* Transformación para centrar */
+    font-size: 8rem; /* Tamaño de fuente grande */
+    font-weight: 900; /* Grosor de fuente (muy negrita) */
+    color: #fff; /* Color de texto blanco */
+}
 
-		.step {
-			margin: 0 auto 15rem auto;
-			color: #fff;
-			/*background-color: rgba(0, 0, 0, 0.1); */
-		}
+/* Estilos para elementos con la clase "step" */
+.step {
+    margin: 0 auto 15rem auto; /* Márgenes y centrado horizontal */
+    color: #fff; /* Color de texto blanco */
+    /*background-color: rgba(0, 0, 0, 0.1); */ /* Comentario deshabilitado */
+}
 
-		.step:last-child {
-			margin-bottom: 0;
-		}
+/* Estilos para el último elemento con la clase "step" */
+.step:last-child {
+    margin-bottom: 0; /* Elimina el margen inferior */
+}
 
-		.step.is-active p {
-			background-color: goldenrod;
-			color: #3b3b3b;
-		}
+/* Estilos para párrafos dentro de elementos con la clase "step" que también tienen la clase "is-active" */
+.step.is-active p {
+    background-color: goldenrod; /* Fondo dorado */
+    color: #3b3b3b; /* Color de texto oscuro */
+}
 
-		.step p {
-			text-align: justify;
-			padding: 2rem;
-			font-size: 1.3rem;
-      font-family:serif;
-			background-color: #3b3b3b;
-		}
+/* Estilos para párrafos dentro de elementos con la clase "step" */
+.step p {
+    text-align: justify; /* Justificar texto */
+    padding: 2rem; /* Relleno de 2rem */
+    font-size: 1.3rem; /* Tamaño de fuente */
+    font-family: serif; /* Fuente serif */
+    background-color: #3b3b3b; /* Fondo oscuro */
+}

@@ -1,13 +1,20 @@
+
+/*El documento de css style.css establece los estilos para los elementos de la web que están fuera de scrollama*/
+
+
+/* Establece el modelo de caja "border-box" para todos los elementos */
 * {
     box-sizing: border-box;
 }
 
+/* Elimina los márgenes y rellenos predeterminados de html y body */
 html,
 body {
     margin: 0;
     padding: 0;
 }
 
+/* Estilos generales para el cuerpo del documento */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
                  Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -16,20 +23,23 @@ body {
     font-size: 24px;
 }
 
+/* Estilos para la barra superior en la página */
 .barra_sup {
-    width: 100%; /* Ancho de la caja */
+    width: 100%; /* Ancho máximo de la caja: 100% de la pantalla*/
     height: 60px; /* Altura de la caja */
     background-color: #B5B2B2; /* Color de fondo gris */
-    justify-content:"center";
-    align-itmes:"center";
+    justify-content:"center"; /* Elementos justificados al centro*/
+    align-itmes:"center"; /* Centrados en vertical*/
 }
 
+/* Estilos para el texto dentro de la barra superior */
 .texto_barra_sup {
     font-family:serif;
     font-size:0.8em;
     color:black;
 }
 
+/* Estilos generales para párrafos, encabezados y enlaces, especificando el margen y el grosor de la tipografía */
 p,
 h1,
 h2,
@@ -40,14 +50,16 @@ a {
     font-weight: 400;
 }
 
+/* Estilos específicos para elementos con la clase "ladillo" */
 .ladillo{
-    font-family:serif;
-    font-weight:bold;
+    font-family:serif; /* Letra con serifa */
+    font-weight:bold;  /* Negrita */
     color:black;
     font-size:1.8rem;
     text-align:left;
 }
 
+/* Establece los estilos para enlaces normales, enlaces visitados y enlaces cuando se pasa el mouse por encima */
 a,
 a:visited,
 a:hover {
@@ -56,6 +68,7 @@ a:hover {
     border-bottom: 2px solid currentColor;
 }
 
+/* Estilos para los elementos con el ID "intro" */
 #intro {
     max-width: 75rem;
     margin: 2rem auto;
@@ -63,6 +76,7 @@ a:hover {
     margin-bottom:30px;
 }
 
+/* Estilos para elementos con la clase "subtitulo" */
 .subtitulo {
     font-family:"Times New Roman", serif;
     color:black;
@@ -72,6 +86,7 @@ a:hover {
     text-align:left;
 }
 
+/* Estilos para elementos con la clase "intro__hed" */
 .intro__hed {
     font-family:"Times New Roman", serif;
     color: #000000;
@@ -81,6 +96,7 @@ a:hover {
     text-align:left;
 }
 
+/* Estilos para un elemento con la clase "intro__dek" */
 .intro__dek {
     color: black;
     font-size: 22px;
@@ -89,6 +105,7 @@ a:hover {
     font-family:"Times New Roman", serif;
 }
 
+/* Estilos para un bloque de texto */
 .bloque_texto {
     width: 60%;
     margin: 0 auto;
@@ -96,6 +113,7 @@ a:hover {
     line-height: 1.3;
 }
 
+/* Estilos para un pie de foto */
 .pie_foto{
     color: black;
     background-color:white;
@@ -105,46 +123,18 @@ a:hover {
     
 }
 
+/* Estilos para elementos con la clase "texto_scroll" */
 .texto_scroll{
     color:black;
     font-size: 2em;
 }
 
-.github-corner:hover .octo-arm {
-    animation: octocat-wave 560ms ease-in-out;
-}
-
-@keyframes octocat-wave {
-    0%,
-    100% {
-        transform: rotate(0);
-    }
-
-    20%,
-    60% {
-        transform: rotate(-25deg);
-    }
-
-    40%,
-    80% {
-        transform: rotate(10deg);
-    }
-}
-
-@media (max-width: 500px) {
-    .github-corner:hover .octo-arm {
-        animation: none;
-    }
-
-    .github-corner .octo-arm {
-        animation: octocat-wave 560ms ease-in-out;
-    }
-}
-
+/* Establece una altura para un elemento con el ID "outro" */
 #outro {
     height: 640px;
 }
 
+/* Estilos para elementos con la clase "nav__examples" en pantallas grandes */
 @media (min-width: 840px) {
     .nav__examples {
         margin-top: 0;
@@ -152,38 +142,19 @@ a:hover {
     }
 }
 
-#outro {
-    height: 640px;
-}
-
-@media (min-width: 840px) {
-    .nav__examples {
-        margin-top: 0;
-        margin-left: 2rem;
-    }
-}
-
-#outro {
-    height: 640px;
-}
-
-@media (min-width: 840px) {
-    .nav__examples {
-        margin-top: 0;
-        margin-left: 2rem;
-    }
-}
-
+/* Estilos para imágenes */
 .img {
     max-width: 100%; /* Ensures images don't exceed their container's width */
     height: auto; /* Allows images to scale proportionally */
 }
 
+/* Estilos para un elemento con la clase "lightable-material" */
 .lightable-material{
     font-size:0.8em;
     max-width:100%;
 }
 
+/* Estilos para elementos con la clase "caja_fuentes" */
 .caja_fuentes {
     color: black;
     background-color:#ececec;
